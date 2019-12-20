@@ -24,6 +24,35 @@ app.post("/people/create", function(req, res) {
     res.json(response);
   });
 });
+
+app.post("/ships/create", function(req, res) {
+  db.Ship.create(req.body).then(function(response) {
+    res.json(response);
+  });
+});
+
+app.post("/events/create", function(req, res) {
+  db.Event.create(req.body).then(function(response) {
+    res.json(response);
+  });
+});
+
+app.post("/journeys/create", function(req, res) {
+  db.Journey.create(req.body).then(function(response) {
+    res.json(response);
+  });
+});
+
+app.get("/journeys/all", function(req, res) {
+  db.Journey.find()
+    .populate({
+      path: "ships",
+      populate: [{ path: "captains" }, { path: "events" }]
+    })
+    .then(function(response) {
+      res.json(response);
+    });
+});
 // Send every other request to the React app
 // Define any API routes before this runs
 app.get("*", (req, res) => {
