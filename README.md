@@ -32,10 +32,10 @@ On visiting the site users will be able to search a database of journeys. Upon c
   - [ ] Data Input using the map 1/4/20
   - [ ] Style 1/4/20
   - [ ] Deploy 1/1/20
-- Phase 3 Polish
+- Phase 3 Polish 1/8
   - [ ] Refactor 1/8/20
   - [ ] Work out bugs 1/8/20
   - [ ] Style 1/8/20
-- Presentation time
+- Phase 4 Presentation 1/10
   - [ ] Power Point
 
