@@ -53,6 +53,8 @@ app.get("/journeys/all", function(req, res) {
       res.json(response);
     });
 });
+
+require("./routes/api-routes.js")(app);
 // Send every other request to the React app
 // Define any API routes before this runs
 app.get("*", (req, res) => {
