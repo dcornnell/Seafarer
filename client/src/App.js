@@ -1,21 +1,40 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+import L from "leaflet";
+import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import "./App.css";
 
-class App extends Component {
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
+
+let DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
+
+export default class SimpleExample extends Component<{}, State> {
+  state = {
+    lat: 51.505,
+    lng: -0.09,
+    zoom: 13
+  };
+
   render() {
+    const position = [this.state.lat, this.state.lng];
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Map className="map" center={position} zoom={this.state.zoom}>
+        <TileLayer
+          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={position}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      </Map>
     );
   }
 }
-
-export default App;

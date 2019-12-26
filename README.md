@@ -1,3 +1,5 @@
+
+
 # Seafarer
 ## Purpose
 A Web Application for the display of historical sea journeys. The app will display maps of journeys as well as information about the stops, ships, and people involved. This pupose of this app is to teach users about the history of seafarering in a visual and engaging way. 
@@ -38,4 +40,5 @@ On visiting the site users will be able to search a database of journeys. Upon c
   - [ ] Style 1/8/20
 - Phase 4 Presentation 1/10
   - [ ] Power Point
+
 
