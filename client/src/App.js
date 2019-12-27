@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import L from "leaflet";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import Container from "./components/Container.js";
 import "leaflet/dist/leaflet.css";
 import "./App.css";
+
+import NavBar from "./components/NavBar.js";
 
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
@@ -52,15 +55,14 @@ class App extends Component {
     this.generatePoints();
   }
 
-  render() {
+  renderMap() {
     if (this.state.max_bounds.length > 0 && this.state.min_bounds.length > 0) {
-      console.log(this.state.min_bounds);
-      console.log(this.state.max_bounds);
       return (
         <>
           <Map
             className="map"
             bounds={[this.state.min_bounds, this.state.max_bounds]}
+            boundsOptions={{ padding: [10, 10] }}
           >
             <TileLayer
               attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -81,7 +83,26 @@ class App extends Component {
           </Map>
         </>
       );
-    } else return null;
+    } else return <div>Map Not Found</div>;
+  }
+
+  render() {
+    return (
+      <>
+        <NavBar />
+        <Container>
+          <div className="grid-x grid-margin-x">
+            <div className="cell small-8">{this.renderMap()}</div>
+            <div className="cell small-4">cell</div>
+          </div>
+          <div className="grid-x grid-margin-x">
+            <div className="cell small-4">cell</div>
+            <div className="cell small-4">cell</div>
+            <div className="cell small-4">cell</div>
+          </div>
+        </Container>
+      </>
+    );
   }
 }
 
