@@ -1,3 +1,7 @@
 .map {
   height: 400px;
 }
+
+.cell {
+  border: black 1px solid;
+}
