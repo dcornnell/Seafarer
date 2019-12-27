@@ -25,7 +25,7 @@ On visiting the site users will be able to search a database of journeys. Upon c
   - [x] Create app wireframe
   - [x] Upload to github
   - [x] Model Datbase
-  - [ ] Get points to display on a map - 12/20/19
+  - [x] Get points to display on a map - 12/20/19
   - [ ] Connect the dots - 12/ 23/ 19
   - [ ] Data Input 12/27/19
   - [ ] Display Data on click  1/1/20
