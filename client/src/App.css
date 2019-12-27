@@ -3,5 +3,5 @@
 }
 
 .cell {
-  background-color: blue;
+  border: black 1px solid;
 }

@@ -2,9 +2,12 @@ import React from "react";
 
 function EventList({ children }) {
   return (
-    <div>
-      <ul>{children}</ul>
-    </div>
+    <>
+      <h3>Event List</h3>
+      <div>
+        <ul>{children}</ul>
+      </div>
+    </>
   );
 }
 
