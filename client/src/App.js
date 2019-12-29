@@ -1,12 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
 import L from "leaflet";
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+//import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "./App.css";
 
 //components
 import Container from "./components/Container.js";
+import Map from "./components/Map";
 import About from "./components/About";
 import NavBar from "./components/NavBar";
 import EventList from "./components/EventList";
@@ -26,7 +27,7 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-class App extends Component {
+class App extends React.Component {
   state = {
     about: {},
     events: [],
@@ -46,6 +47,7 @@ class App extends Component {
           event.location.coordinates[1],
           event.location.coordinates[0]
         ]);
+        return boundsArray;
       });
       const bounds = L.bounds(boundsArray);
 
@@ -65,30 +67,10 @@ class App extends Component {
   renderMap() {
     if (this.state.max_bounds.length > 0 && this.state.min_bounds.length > 0) {
       return (
-        <>
-          <Map
-            className="map"
-            bounds={[this.state.min_bounds, this.state.max_bounds]}
-            boundsOptions={{ padding: [10, 10] }}
-          >
-            <TileLayer
-              attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {this.state.events.map(event => {
-              const position = [
-                event.location.coordinates[1],
-                event.location.coordinates[0]
-              ];
-
-              return (
-                <Marker position={position}>
-                  <Popup>{event.description}</Popup>
-                </Marker>
-              );
-            })}
-          </Map>
-        </>
+        <Map
+          bounds={[this.state.min_bounds, this.state.max_bounds]}
+          events={this.state.events}
+        />
       );
     } else return <div>Map Not Found</div>;
   }

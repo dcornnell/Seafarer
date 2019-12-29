@@ -4,7 +4,7 @@ function EventList({ children }) {
   return (
     <>
       <h3>Event List</h3>
-      <div>
+      <div className="scroll">
         <ul>{children}</ul>
       </div>
     </>

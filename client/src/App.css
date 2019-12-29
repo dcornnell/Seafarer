@@ -5,3 +5,7 @@
 .cell {
   border: black 1px solid;
 }
+.scroll {
+  max-height: 200px;
+  overflow-y: auto;
+}
