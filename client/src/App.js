@@ -20,15 +20,6 @@ import JourneyList from "./components/JourneyList";
 
 import axios from "axios";
 
-let DefaultIcon = L.icon({
-  iconUrl:
-    "https://raw.githubusercontent.com/iconic/open-iconic/master/png/map-marker-8x.png",
-  iconSize: [32, 32],
-  iconAnchor: [16, 32]
-});
-
-L.Marker.prototype.options.icon = DefaultIcon;
-
 class App extends React.Component {
   state = {
     about: {},
