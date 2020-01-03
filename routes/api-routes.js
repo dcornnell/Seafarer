@@ -49,4 +49,11 @@ module.exports = function(app) {
         res.json(response);
       });
   });
+
+  //all ships
+  app.get("/ships/all", function(req, res) {
+    db.Ship.find().then(function(ships) {
+      res.json(ships);
+    });
+  });
 };

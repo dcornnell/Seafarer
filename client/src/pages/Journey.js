@@ -11,7 +11,7 @@ import Map from "../components/Map";
 import About from "../components/About";
 import EventList from "../components/EventList";
 import Event from "../components/Event";
-
+import JourneyForm from "../components/JourneyForm";
 //import icon from "leaflet/dist/images/marker-icon.png";
 //import iconShadow from "leaflet/dist/images/marker-shadow.png";
 
@@ -31,6 +31,17 @@ class App extends React.Component {
       const about = res.data;
 
       const events = res.data.ships[0].events;
+      //const events = [];
+
+      // for (let i = 0; i < about.ships.length; i++) {
+      //   for (let j = 0; j < about.ships[i].events.length; j++) {
+      //     //console.log("the events enddate" + about.ships[i].events[j].end_date);
+      //     //console.log("the Journeys end date" + about.end_date);
+      //     if (about.ships[i].events[j].end_date >= about.end_date) {
+      //       console.log(about.ships[i].events[j]);
+      //     }
+      //   }
+      // }
 
       //generate the bounds for the map
       const boundsArray = [];
@@ -87,10 +98,10 @@ class App extends React.Component {
             <div className="cell small-4"></div>
             <div className="cell small-4">
               <EventList>
-                {this.state.events.map(event => {
+                {this.state.events.map((event, i) => {
                   return (
                     <Event
-                      key={event._id}
+                      key={i}
                       start_date={event.start_date}
                       end_date={event.end_date}
                       description={event.description}
@@ -101,6 +112,7 @@ class App extends React.Component {
             </div>
           </div>
         </Container>
+        <JourneyForm />
       </>
     );
   }

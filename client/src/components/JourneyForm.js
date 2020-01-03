@@ -1,12 +1,14 @@
 import React from "react";
 import axios from "axios";
+
 class JourneyForm extends React.Component {
   state = {
-    ships: ["SOMETHING"],
+    allShips: [],
     name: "",
     description: "",
     start_date: "",
-    end_date: ""
+    end_date: "",
+    selectedShips: []
   };
 
   handleInputChange = event => {
@@ -14,6 +16,27 @@ class JourneyForm extends React.Component {
     this.setState({
       [name]: value
     });
+  };
+
+  componentDidMount() {
+    this.getShips();
+  }
+
+  getShips() {
+    axios.get("/ships/all").then(res => {
+      this.setState({ allShips: res.data });
+      console.log(this.state.allShips);
+    });
+  }
+
+  handleSelectShip = option => {
+    const ship = JSON.parse(option.target.value);
+    console.log(ship);
+    let selectedShips = this.state.selectedShips;
+    if (!selectedShips.includes(ship)) {
+      selectedShips.push(ship);
+    }
+    this.setState({ selectedShips: selectedShips });
   };
 
   handleFormSubmit = event => {
@@ -34,7 +57,7 @@ class JourneyForm extends React.Component {
         console.log(error);
       });
     this.setState({
-      ships: [],
+      selectedShips: [],
       name: "",
       description: "",
       start_date: "",
@@ -45,6 +68,7 @@ class JourneyForm extends React.Component {
   render() {
     return (
       <form className="form">
+        Journeys Name
         <input
           value={this.state.name}
           name="name"
@@ -52,6 +76,19 @@ class JourneyForm extends React.Component {
           type="text"
           placeholder="name"
         />
+        Ships on the Journey:
+        {this.state.selectedShips.map(ship => {
+          return <p key={ship._id}>{ship.name}</p>;
+        })}
+        <select value={this.state.ships} onChange={this.handleSelectShip}>
+          {this.state.allShips.map(ship => {
+            return (
+              <option key={ship._id} value={JSON.stringify(ship)}>
+                {ship.name}
+              </option>
+            );
+          })}
+        </select>
         <input
           value={this.state.description}
           name="description"
