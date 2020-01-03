@@ -73,7 +73,7 @@ class JourneyForm extends React.Component {
           type="date"
           placeholder="end_date"
         />
-        <button onClick={this.handleFormSubmit}>Sumbit</button>
+        <button onClick={this.handleFormSubmit}>Submit</button>
       </form>
     );
   }

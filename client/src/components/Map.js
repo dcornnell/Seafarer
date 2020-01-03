@@ -30,14 +30,14 @@ class Map extends React.Component {
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {events.map(event => {
+          {events.map((event, i) => {
             const position = [
               event.location.coordinates[1],
               event.location.coordinates[0]
             ];
 
             return (
-              <Marker position={position}>
+              <Marker key={i} position={position}>
                 <Popup>{event.description}</Popup>
               </Marker>
             );
