@@ -29,6 +29,7 @@ class App extends React.Component {
     const id = this.props.match.params.id;
     axios.get("/journeys/" + id).then(res => {
       const about = res.data;
+
       const events = res.data.ships[0].events;
 
       //generate the bounds for the map
@@ -89,6 +90,7 @@ class App extends React.Component {
                 {this.state.events.map(event => {
                   return (
                     <Event
+                      key={event._id}
                       start_date={event.start_date}
                       end_date={event.end_date}
                       description={event.description}
