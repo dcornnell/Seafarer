@@ -20,10 +20,12 @@ module.exports = function(app) {
   });
 
   app.post("/journeys/create", function(req, res) {
-    db.Journey.create(req.body).then(function(response) {
-      res.json(response);
-    });
+    console.log(req.body);
+    db.Journey.create(req.body)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
   });
+
   //read routes
   app.get("/journeys/all", function(req, res) {
     db.Journey.find()

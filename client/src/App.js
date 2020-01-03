@@ -12,20 +12,13 @@ import About from "./components/About";
 import NavBar from "./components/NavBar";
 import EventList from "./components/EventList";
 import Event from "./components/Event";
+import JourneyForm from "./components/JourneyForm";
+import JourneyList from "./components/JourneyList";
 
 //import icon from "leaflet/dist/images/marker-icon.png";
 //import iconShadow from "leaflet/dist/images/marker-shadow.png";
 
 import axios from "axios";
-
-let DefaultIcon = L.icon({
-  iconUrl:
-    "https://raw.githubusercontent.com/iconic/open-iconic/master/png/map-marker-8x.png",
-  iconSize: [32, 32],
-  iconAnchor: [16, 32]
-});
-
-L.Marker.prototype.options.icon = DefaultIcon;
 
 class App extends React.Component {
   state = {
@@ -92,13 +85,16 @@ class App extends React.Component {
             </div>
           </div>
           <div className="grid-x grid-margin-x">
-            <div className="cell small-4"></div>
+            <div className="cell small-4">
+              <JourneyForm />
+            </div>
             <div className="cell small-4"></div>
             <div className="cell small-4">
               <EventList>
-                {this.state.events.map(event => {
+                {this.state.events.map((event, i) => {
                   return (
                     <Event
+                      key={i}
                       start_date={event.start_date}
                       end_date={event.end_date}
                       description={event.description}
@@ -109,6 +105,7 @@ class App extends React.Component {
             </div>
           </div>
         </Container>
+        <JourneyList></JourneyList>
       </>
     );
   }
