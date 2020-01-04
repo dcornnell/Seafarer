@@ -14,9 +14,10 @@ module.exports = function(app) {
   });
 
   app.post("/events/create", function(req, res) {
-    db.Event.create(req.body).then(function(response) {
-      res.json(response);
-    });
+    console.log(req.body);
+    db.Event.create(req.body)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
   });
 
   app.post("/journeys/create", function(req, res) {

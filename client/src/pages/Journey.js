@@ -8,6 +8,7 @@ import "./Journey.css";
 //components
 import Container from "../components/Container.js";
 import Map from "../components/Map";
+
 import About from "../components/About";
 import EventList from "../components/EventList";
 import Event from "../components/Event";
@@ -30,18 +31,16 @@ class App extends React.Component {
     axios.get("/journeys/" + id).then(res => {
       const about = res.data;
 
-      const events = res.data.ships[0].events;
-      //const events = [];
+      let events = [];
 
-      // for (let i = 0; i < about.ships.length; i++) {
-      //   for (let j = 0; j < about.ships[i].events.length; j++) {
-      //     //console.log("the events enddate" + about.ships[i].events[j].end_date);
-      //     //console.log("the Journeys end date" + about.end_date);
-      //     if (about.ships[i].events[j].end_date >= about.end_date) {
-      //       console.log(about.ships[i].events[j]);
-      //     }
-      //   }
-      // }
+      for (let i = 0; i < about.ships.length; i++) {
+        for (let j = 0; j < about.ships[i].events.length; j++) {
+          //console.log("the events enddate" + about.ships[i].events[j].end_date);
+          //console.log("the Journeys end date" + about.end_date);
+
+          events.push(about.ships[i].events[j]);
+        }
+      }
 
       //generate the bounds for the map
       const boundsArray = [];
@@ -50,9 +49,14 @@ class App extends React.Component {
           event.location.coordinates[1],
           event.location.coordinates[0]
         ]);
-        return boundsArray;
+        return null;
       });
-      const bounds = L.bounds(boundsArray);
+      let bounds;
+      if (boundsArray.length === 0) {
+        bounds = L.bounds([[51, 0.1]]);
+      } else {
+        bounds = L.bounds(boundsArray);
+      }
 
       this.setState({
         about: about,
@@ -69,12 +73,7 @@ class App extends React.Component {
 
   renderMap() {
     if (this.state.max_bounds.length > 0 && this.state.min_bounds.length > 0) {
-      return (
-        <Map
-          bounds={[this.state.min_bounds, this.state.max_bounds]}
-          events={this.state.events}
-        />
-      );
+      return <Map events={this.state.events} />;
     } else return <div>Map Not Found</div>;
   }
 

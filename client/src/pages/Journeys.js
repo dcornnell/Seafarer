@@ -19,15 +19,17 @@ class Journeys extends Component {
   }
   render() {
     return (
-      <ul>
-        {this.state.journeys.map(journey => {
-          return (
-            <li key={journey._id}>
-              <Link to={"/journeys/" + journey._id}>{journey.name}</Link>
-            </li>
-          );
-        })}
-      </ul>
+      <>
+        <ul>
+          {this.state.journeys.map(journey => {
+            return (
+              <li key={journey._id}>
+                <Link to={"/journeys/" + journey._id}>{journey.name}</Link>
+              </li>
+            );
+          })}
+        </ul>
+      </>
     );
   }
 }
