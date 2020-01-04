@@ -12,7 +12,11 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-class Map2 extends Component {
+class Map extends Component {
+  handleClick = event => {
+    console.log(this.map.mouseEventToLatLng(event));
+  };
+
   getBounds() {
     const boundsArray = [];
     this.props.events.map(function(event) {
@@ -44,14 +48,15 @@ class Map2 extends Component {
       ]
     });
     const boundsArray = [];
-    this.props.events.map(function(event) {
-      boundsArray.push([
-        event.location.coordinates[1],
-        event.location.coordinates[0]
-      ]);
-      return null;
-    });
-
+    if (this.props.events) {
+      this.props.events.map(function(event) {
+        boundsArray.push([
+          event.location.coordinates[1],
+          event.location.coordinates[0]
+        ]);
+        return null;
+      });
+    }
     if (L.bounds(boundsArray).isValid()) {
       this.map.fitBounds(boundsArray);
       console.log("bounds should be good to go");
@@ -59,21 +64,23 @@ class Map2 extends Component {
       console.log("bounds were invalid setting to default");
       this.map.fitWorld();
     }
-    console.log(this.props.events);
-    this.props.events.map(event => {
-      console.log(event);
-      const marker = new L.marker([
-        parseFloat(event.location.coordinates[1]),
-        parseFloat(event.location.coordinates[0])
-      ]).addTo(this.map);
-    });
+
+    if (this.props.event) {
+      this.props.events.map(event => {
+        console.log(event);
+        const marker = new L.marker([
+          parseFloat(event.location.coordinates[1]),
+          parseFloat(event.location.coordinates[0])
+        ]).addTo(this.map);
+      });
+    }
   }
   componentDidMount() {
     this.createMap();
   }
 
   render() {
-    return <div id="mapid"></div>;
+    return <div id="mapid" onClick={this.handleClick}></div>;
   }
 }
-export default Map2;
+export default Map;
