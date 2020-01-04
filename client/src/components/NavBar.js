@@ -6,7 +6,8 @@ function Navbar() {
     <TopBar>
       <TopBarLeft>Seafarer</TopBarLeft>
       <TopBarRight>
-        <Link to={"/journeys/new"}>New Journey</Link>
+        <Link to={"/journeys/new"}>New Journey</Link>|
+        <Link to={"/"}>Journey List</Link>
       </TopBarRight>
     </TopBar>
   );
