@@ -37,9 +37,7 @@ class Map extends React.Component {
             ];
 
             return (
-
-              <Marker key={event._id} position={position}>
-
+              <Marker key={i} position={position}>
                 <Popup>{event.description}</Popup>
               </Marker>
             );

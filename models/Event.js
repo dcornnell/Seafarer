@@ -13,7 +13,13 @@ const EventSchema = new Schema({
     coordinates: {
       type: [Number],
       required: true
-    }
+    },
+    ships: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Ship"
+      }
+    ]
   }
 });
 
