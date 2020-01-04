@@ -39,7 +39,7 @@ class Map extends Component {
   createMap() {
     this.map = L.map("mapid", {
       center: [49.8419, 24.0315],
-      zoom: 16,
+      zoom: 2,
       layers: [
         L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
           attribution:
