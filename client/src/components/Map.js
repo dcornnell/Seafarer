@@ -47,6 +47,9 @@ class Map extends Component {
         })
       ]
     });
+  }
+
+  createBounds() {
     const boundsArray = [];
     if (this.props.events) {
       this.props.events.map(function(event) {
@@ -64,19 +67,27 @@ class Map extends Component {
       console.log("bounds were invalid setting to default");
       this.map.fitWorld();
     }
+  }
 
-    if (this.props.event) {
+  createMarkers() {
+    if (this.props.events) {
       this.props.events.map(event => {
         console.log(event);
-        const marker = new L.marker([
+        this.marker = new L.marker([
           parseFloat(event.location.coordinates[1]),
           parseFloat(event.location.coordinates[0])
         ]).addTo(this.map);
       });
     }
   }
+
   componentDidMount() {
     this.createMap();
+  }
+
+  componentDidUpdate() {
+    this.createMarkers();
+    this.createBounds();
   }
 
   render() {

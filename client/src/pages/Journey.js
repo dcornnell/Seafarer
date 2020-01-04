@@ -8,7 +8,6 @@ import "./Journey.css";
 //components
 import Container from "../components/Container.js";
 import Map from "../components/Map";
-
 import About from "../components/About";
 import EventList from "../components/EventList";
 import Event from "../components/Event";
@@ -21,9 +20,7 @@ import axios from "axios";
 class App extends React.Component {
   state = {
     about: {},
-    events: [],
-    min_bounds: [],
-    max_bounds: []
+    events: []
   };
 
   generateInfo() {
@@ -42,7 +39,6 @@ class App extends React.Component {
         }
       }
 
-      //generate the bounds for the map
       const boundsArray = [];
       events.map(function(event) {
         boundsArray.push([
@@ -60,9 +56,7 @@ class App extends React.Component {
 
       this.setState({
         about: about,
-        events: events,
-        min_bounds: [bounds.min.x, bounds.min.y],
-        max_bounds: [bounds.max.x, bounds.max.y]
+        events: events
       });
     });
   }
@@ -71,18 +65,14 @@ class App extends React.Component {
     this.generateInfo();
   }
 
-  renderMap() {
-    if (this.state.max_bounds.length > 0 && this.state.min_bounds.length > 0) {
-      return <Map events={this.state.events} />;
-    } else return <div>Map Not Found</div>;
-  }
-
   render() {
     return (
       <>
         <Container>
           <div className="grid-x grid-margin-x">
-            <div className="cell small-8">{this.renderMap()}</div>
+            <div className="cell small-8">
+              <Map events={this.state.events} />
+            </div>
             <div className="cell small-4">
               <About
                 name={this.state.about.name}
