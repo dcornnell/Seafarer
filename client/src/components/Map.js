@@ -77,6 +77,7 @@ class Map extends Component {
           parseFloat(event.location.coordinates[1]),
           parseFloat(event.location.coordinates[0])
         ]).addTo(this.map);
+        return null;
       });
     }
   }

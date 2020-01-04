@@ -1,15 +1,42 @@
 import React from "react";
-import { TopBar, TopBarLeft, TopBarRight } from "react-foundation";
+
 import { Link } from "react-router-dom";
 function Navbar() {
   return (
-    <TopBar>
-      <TopBarLeft>Seafarer</TopBarLeft>
-      <TopBarRight>
-        <Link to={"/journeys/new"}>New Journey</Link>|
-        <Link to={"/"}>Journey List</Link>
-      </TopBarRight>
-    </TopBar>
+    <nav
+      className="navbar is-dark"
+      role="navigation"
+      aria-label="main navigation"
+    >
+      <div className="navbar-brand">
+        SeaFarers
+        {/* <a
+          role="button"
+          className="navbar-burger burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="navbarBasicExample"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a> */}
+      </div>
+
+      <div id="navbarBasicExample" className="navbar-menu">
+        <div className="navbar-start">
+          <Link classNameName="navbar-item" to={"/journeys/new"}>
+            New Journey
+          </Link>
+
+          <Link classNameName="navbar-item" to={"/"}>
+            Journey List
+          </Link>
+        </div>
+      </div>
+
+      <div className="navbar-end"></div>
+    </nav>
   );
 }
 
