@@ -72,7 +72,6 @@ class Map extends Component {
   createMarkers() {
     if (this.props.events) {
       this.props.events.map(event => {
-        console.log(event);
         this.marker = new L.marker([
           parseFloat(event.location.coordinates[1]),
           parseFloat(event.location.coordinates[0])
