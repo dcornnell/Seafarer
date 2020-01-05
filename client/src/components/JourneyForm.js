@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import Modal from "./Modal";
 import API from "../util/API";
 import ShipForm from "../components/ShipForm";
@@ -26,20 +25,15 @@ class JourneyForm extends React.Component {
   };
 
   componentDidMount() {
-    //this.getShips();
     API.getShips().then(res => {
       this.setState({ allShips: res.data });
     });
   }
 
-  getShips() {
-    axios.get("/ships/all").then(res => {
+  componentDidUpdate() {
+    API.getShips().then(res => {
       this.setState({ allShips: res.data });
     });
-  }
-
-  componentDidUpdate() {
-    this.getShips();
   }
   toggleModal = event => {
     event.preventDefault();
@@ -59,8 +53,6 @@ class JourneyForm extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    console.log("someting please work");
-    console.log(this.state);
     this.props.onSubmit(this.state);
   };
 
