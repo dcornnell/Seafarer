@@ -13,12 +13,12 @@ class CreateJourney extends Component {
     end_date: "",
     selectedShips: [],
     modal: false,
-    formSubmitted: false
+    formSubmitted: false,
+    currentJourney: ""
   };
 
   handleFormSubmit(childState) {
-    console.log(childState);
-
+    const self = this;
     const shipIds = [];
     childState.selectedShips.map(ship => {
       shipIds.push(ship._id);
@@ -35,10 +35,21 @@ class CreateJourney extends Component {
       })
       .then(function(response) {
         console.log(response);
+        self.setState({ currentJourney: response.data._id });
       })
       .catch(function(error) {
         console.log(error);
       });
+  }
+  getJourney() {
+    if (this.state.currentJourney !== undefined) {
+      console.log("hello");
+    } else {
+      console.log("the form has been submitted");
+    }
+  }
+  componentDidUpdate() {
+    this.getJourney();
   }
 
   render() {

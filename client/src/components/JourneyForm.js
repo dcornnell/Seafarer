@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import Modal from "./Modal";
 import API from "../util/API";
+import ShipForm from "../components/ShipForm";
 
 import { Redirect } from "react-router-dom";
 
@@ -139,7 +140,9 @@ class JourneyForm extends React.Component {
             onClick={event => {
               this.toggleModal(event);
             }}
-          ></Modal>
+          >
+            <ShipForm />
+          </Modal>
         </>
       );
     }
