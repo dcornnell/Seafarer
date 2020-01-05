@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Modal from "./Modal";
+import API from "../util/API";
 
 import { Redirect } from "react-router-dom";
 
@@ -24,7 +25,10 @@ class JourneyForm extends React.Component {
   };
 
   componentDidMount() {
-    this.getShips();
+    //this.getShips();
+    API.getShips().then(res => {
+      this.setState({ allShips: res.data });
+    });
   }
 
   getShips() {
