@@ -3,6 +3,9 @@ import JourneyForm from "../components/JourneyForm";
 import EventForm from "../components/EventForm";
 import Map from "../components/Map";
 import axios from "axios";
+import API from "../util/API";
+import About from "../components/About";
+import _ from "lodash";
 class CreateJourney extends Component {
   state = {
     journeySubmited: false,
@@ -13,12 +16,14 @@ class CreateJourney extends Component {
     end_date: "",
     selectedShips: [],
     modal: false,
-    formSubmitted: false
+    formSubmitted: false,
+    dataReceived: false,
+    currentJourney: "",
+    currentJourneyData: {}
   };
 
   handleFormSubmit(childState) {
-    console.log(childState);
-
+    const self = this;
     const shipIds = [];
     childState.selectedShips.map(ship => {
       shipIds.push(ship._id);
@@ -34,12 +39,63 @@ class CreateJourney extends Component {
         ships: shipIds
       })
       .then(function(response) {
-        console.log(response);
+        self.setState({
+          currentJourney: response.data._id,
+          formSubmitted: true
+        });
       })
       .catch(function(error) {
         console.log(error);
       });
   }
+  getJourney = () => {
+    const self = this;
+    API.getJourney(this.state.currentJourney).then(function(response) {
+      const currentJourneyData = response.data;
+      self.setState({
+        dataReceived: true,
+        ...currentJourneyData,
+        currentJourneyData
+      });
+    });
+  };
+  componentDidUpdate() {}
+
+  conditionalRender = () => {
+    if (
+      this.state.formSubmitted === false &&
+      _.isEmpty(this.state.currentJourneyData)
+    ) {
+      return (
+        <JourneyForm
+          onSubmit={childState => {
+            this.handleFormSubmit(childState);
+          }}
+        />
+      );
+    } else if (
+      this.state.formSubmitted === true &&
+      _.isEmpty(this.state.currentJourneyData)
+    ) {
+      this.getJourney();
+      return <div> getting data </div>;
+    } else if (this.state.dataReceived) {
+      const {
+        name,
+        description,
+        start_date,
+        end_date
+      } = this.state.currentJourneyData;
+      return (
+        <About
+          name={name}
+          description={description}
+          start_date={start_date}
+          end_date={end_date}
+        />
+      );
+    }
+  };
 
   render() {
     return (
@@ -47,11 +103,7 @@ class CreateJourney extends Component {
         <div className="tile is-ancestor">
           <div className="tile is-parent is-vertical">
             <div className="tile is-child card is-primary">
-              <JourneyForm
-                onSubmit={childState => {
-                  this.handleFormSubmit(childState);
-                }}
-              />
+              {this.conditionalRender()}
             </div>
             <div className="tile is-child card is-warning">
               <EventForm />
@@ -63,6 +115,13 @@ class CreateJourney extends Component {
             </div>
           </div>
         </div>
+        <button
+          onClick={() => {
+            console.log(this.state.currentJourneyData);
+          }}
+        >
+          durr
+        </button>
       </>
     );
   }
