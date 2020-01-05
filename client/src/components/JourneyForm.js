@@ -43,45 +43,20 @@ class JourneyForm extends React.Component {
 
   handleSelectShip = option => {
     const ship = JSON.parse(option.target.value);
-    console.log(ship);
+
     let selectedShips = this.state.selectedShips;
     if (!selectedShips.includes(ship)) {
       selectedShips.push(ship);
     }
     this.setState({ selectedShips: selectedShips });
+    console.log(this.state.selectedShips);
   };
 
-  handleFormSubmit = event => {
+  onSubmit = event => {
     event.preventDefault();
-
-    const shipIds = [];
-    this.state.selectedShips.map(ship => {
-      shipIds.push(ship._id);
-      return null;
-    });
-
-    axios
-      .post("/journeys/create", {
-        name: this.state.name,
-        description: this.state.description,
-        start_date: this.state.start_date,
-        end_date: this.state.end_date,
-        ships: shipIds
-      })
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-    this.setState({
-      selectedShips: [],
-      name: "",
-      description: "",
-      start_date: "",
-      end_date: "",
-      formSubmitted: true
-    });
+    console.log("someting please work");
+    console.log(this.state);
+    this.props.onSubmit(this.state);
   };
 
   render() {
@@ -147,7 +122,13 @@ class JourneyForm extends React.Component {
                 placeholder="end_date"
               />
             </div>
-            <button onClick={this.handleFormSubmit}>Submit</button>
+            <button
+              onClick={event => {
+                this.onSubmit(event);
+              }}
+            >
+              Submit
+            </button>
           </form>
           <Modal
             status={this.state.modal}

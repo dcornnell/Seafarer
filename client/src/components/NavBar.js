@@ -25,11 +25,11 @@ function Navbar() {
 
       <div id="navbarBasicExample" className="navbar-menu">
         <div className="navbar-start">
-          <Link classNameName="navbar-item" to={"/journeys/new"}>
+          <Link className="navbar-item" to={"/journeys/new"}>
             New Journey
           </Link>
 
-          <Link classNameName="navbar-item" to={"/"}>
+          <Link className="navbar-item" to={"/"}>
             Journey List
           </Link>
         </div>
