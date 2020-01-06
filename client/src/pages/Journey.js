@@ -43,8 +43,8 @@ class Journey extends React.Component {
     return (
       <>
         <div className="tile is-ancestor">
-          <div class="tile is-parent is-vertical">
-            <article class="tile is-child card is-primary">
+          <div className="tile is-parent is-vertical">
+            <article className="tile is-child card is-primary">
               <About
                 name={this.state.about.name}
                 start_date={this.state.about.start_date}
@@ -52,7 +52,7 @@ class Journey extends React.Component {
                 description={this.state.about.description}
               />
             </article>
-            <div class="tile is-child card is-warning">
+            <div className="tile is-child card is-warning">
               <EventList>
                 {this.state.events.map((event, i) => {
                   return (

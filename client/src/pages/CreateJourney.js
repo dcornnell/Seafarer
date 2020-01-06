@@ -20,7 +20,8 @@ class CreateJourney extends Component {
     dataReceived: false,
     currentJourneyId: "",
     currentJourneyData: {},
-    eventData: {}
+    eventData: {},
+    clickedLatLng: {}
   };
   //
   eventFormSubmit(childState) {
@@ -67,6 +68,11 @@ class CreateJourney extends Component {
         currentJourneyData
       });
     });
+  };
+  getCoord = childState => {
+    const data = { ...childState };
+
+    this.setState({ clickedLatLng: data });
   };
 
   conditionalRender = () => {
@@ -116,6 +122,8 @@ class CreateJourney extends Component {
             <div className="tile is-child card is-warning">
               {this.state.dataReceived ? (
                 <EventForm
+                  key={`${this.state.clickedLatLng.lat}-${this.state.clickedLatLng.lng}`}
+                  defaultLatLng={this.state.clickedLatLng}
                   allShips={this.state.currentJourneyData.ships}
                   onSubmit={childState => {
                     this.eventFormSubmit(childState);
@@ -128,7 +136,11 @@ class CreateJourney extends Component {
           </div>
           <div className="tile is-8 is-parent">
             <div className="tile is-child card">
-              <Map />
+              <Map
+                onClick={childState => {
+                  this.getCoord(childState);
+                }}
+              />
             </div>
           </div>
         </div>

@@ -39,6 +39,7 @@ class ShipForm extends Component {
       about: "",
       country: ""
     });
+    this.props.onSubmit();
   };
 
   render() {

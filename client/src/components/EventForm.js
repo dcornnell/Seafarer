@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 
-import { Redirect } from "react-router-dom";
-
 class EventForm extends Component {
   state = {
     description: "",
     start_date: "",
     end_date: "",
-    lat: "",
-    lng: "",
+    lat: this.props.defaultLatLng.lat || "",
+    lng: this.props.defaultLatLng.lng || "",
     formSubmitted: false,
     selectedShips: []
   };
@@ -31,6 +29,7 @@ class EventForm extends Component {
   };
   handleInputChange = event => {
     const { name, value } = event.target;
+
     this.setState({
       [name]: value
     });
@@ -42,74 +41,70 @@ class EventForm extends Component {
   };
 
   render() {
-    if (this.state.formSubmitted) {
-      return <Redirect to="/" />;
-    } else {
-      return (
-        <form className="form">
-          {this.props.allShips.map((ship, i) => {
-            return (
-              <div key={i}>
-                {ship.name}
-                <input
-                  type="checkbox"
-                  name={ship.name}
-                  value={ship._id}
-                  onChange={this.handleShipSelect}
-                />
-              </div>
-            );
-          })}
-          <input
-            value={this.state.description}
-            name="description"
-            onChange={this.handleInputChange}
-            type="text"
-            placeholder="description"
-          />
+    return (
+      <form className="form">
+        {this.props.allShips.map((ship, i) => {
+          return (
+            <div key={i}>
+              {ship.name}
+              <input
+                type="checkbox"
+                name={ship.name}
+                value={ship._id}
+                onChange={this.handleShipSelect}
+              />
+            </div>
+          );
+        })}
+        <input
+          value={this.state.description}
+          name="description"
+          onChange={this.handleInputChange}
+          type="text"
+          placeholder="description"
+        />
 
-          <input
-            value={this.state.lng}
-            name="lng"
-            onChange={this.handleInputChange}
-            type="number"
-            placeholder="lng"
-          />
+        <input
+          value={this.state.lng}
+          name="lng"
+          onChange={this.handleInputChange}
+          type="number"
+          placeholder="lng"
+        />
 
-          <input
-            value={this.state.lat}
-            name="lat"
-            onChange={this.handleInputChange}
-            type="number"
-            placeholder="lat"
-          />
+        <input
+          value={this.state.lat}
+          name="lat"
+          onChange={this.handleInputChange}
+          type="number"
+          placeholder="lng"
+        />
 
-          <input
-            value={this.state.start_date}
-            name="start_date"
-            onChange={this.handleInputChange}
-            type="date"
-            placeholder="start date"
-          />
+        <input
+          value={this.state.start_date}
+          name="start_date"
+          onChange={this.handleInputChange}
+          type="date"
+          placeholder="start date"
+        />
 
-          <input
-            value={this.state.end_date}
-            name="end_date"
-            onChange={this.handleInputChange}
-            type="date"
-            placeholder="end date"
-          />
+        <input
+          value={this.state.end_date}
+          name="end_date"
+          onChange={this.handleInputChange}
+          type="date"
+          placeholder="end date"
+        />
 
-          <button
-            onClick={event => {
-              this.onSubmit(event);
-            }}
-          >
-            Submit
-          </button>
-        </form>
-      );
-    }
+        <button
+          onClick={event => {
+            this.onSubmit(event);
+          }}
+        >
+          Submit
+        </button>
+      </form>
+    );
   }
 }
 
