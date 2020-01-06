@@ -14,7 +14,9 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 class Map extends Component {
   handleClick = event => {
-    console.log(this.map.mouseEventToLatLng(event));
+    if (this.props.onClick) {
+      this.props.onClick(this.map.mouseEventToLatLng(event));
+    }
   };
 
   getBounds() {
@@ -40,8 +42,15 @@ class Map extends Component {
     this.map = L.map("mapid", {
       center: [49.8419, 24.0315],
       zoom: 2,
+      worldCopyJump: true,
+      maxBounds: [],
       layers: [
         L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+          noWrap: true,
+          maxBounds: [
+            [-90, -180],
+            [90, 180]
+          ],
           attribution:
             '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         })
