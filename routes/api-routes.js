@@ -14,25 +14,33 @@ module.exports = function(app) {
   });
 
   app.post("/events/create", function(req, res) {
-    console.log(req.body);
-    db.Event.create(req.body)
-      .then(dbModel => res.json(dbModel))
+    const { shipIds, ...eventData } = req.body;
+    console.log(shipIds);
+    db.Event.create(eventData)
+      .then(dbEvent => {
+        db.Ship.update(
+          { _id: { $in: shipIds } },
+          { $push: { events: dbEvent._id } }
+        ).then(function() {
+          res.json(dbEvent);
+        });
+      })
       .catch(err => res.status(422).json(err));
   });
 
-  app.put("/shipstoevent", function(req, res) {
-    const { eventId, shipIds } = req.body;
-    shipIds.map(id => {
-      db.Ship.findOneAndUpdate(
-        { _id: id },
-        { $push: { events: eventId } },
-        { new: true }
-      ).then(function(response) {
-        console.log(response);
-        res.json(response);
-      });
-    });
-  });
+  // app.put("/shipstoevent", function(req, res) {
+  //   const { eventId, shipIds } = req.body;
+  //   shipIds.map(id => {
+  //     db.Ship.findOneAndUpdate(
+  //       { _id: id },
+  //       { $push: { events: eventId } },
+  //       { new: true }
+  //     ).then(function(response) {
+  //       console.log(response);
+  //       res.json(response);
+  //     });
+  //   });
+  // });
 
   app.post("/journeys/create", function(req, res) {
     console.log(req.body);

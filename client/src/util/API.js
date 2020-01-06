@@ -14,13 +14,13 @@ export default {
   },
 
   //adds an Event to ships
-  eventToShips: function(eventId, shipIds) {
-    console.log("whatep");
-    return axios.put("/shipstoevent", {
-      eventId: eventId,
-      shipIds: shipIds
-    });
-  },
+  // eventToShips: function(eventId, shipIds) {
+  //   console.log("whatep");
+  //   return axios.put("/shipstoevent", {
+  //     eventId: eventId,
+  //     shipIds: shipIds
+  //   });
+  // },
   //create a Journey
   createJourney: function(data) {
     return axios.post("/journeys/create", {
@@ -32,7 +32,7 @@ export default {
     });
   },
   //create an event
-  createEvent: function(data) {
+  createEvent: function(data, shipIds) {
     const location = {
       coordinates: [data.lng, data.lat],
       type: "Point"
@@ -41,7 +41,8 @@ export default {
       description: data.description,
       start_date: data.start_date,
       end_date: data.end_date,
-      location: location
+      location: location,
+      shipIds: shipIds
     });
   }
 };
