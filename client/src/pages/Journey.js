@@ -40,6 +40,7 @@ class Journey extends React.Component {
   }
 
   render() {
+    console.log(this.state.events);
     return (
       <>
         <div className="tile is-ancestor">
@@ -69,7 +70,7 @@ class Journey extends React.Component {
           </div>
           <div className="tile is-8 is-parent">
             <div className="tile is-child card">
-              <Map events={this.state.events} />
+              <Map mode="view" events={this.state.events} />
             </div>
           </div>
         </div>

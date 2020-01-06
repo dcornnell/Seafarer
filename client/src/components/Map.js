@@ -42,11 +42,12 @@ class Map extends Component {
     this.map = L.map("mapid", {
       center: [49.8419, 24.0315],
       zoom: 2,
-      worldCopyJump: true,
+
       maxBounds: [],
       layers: [
         L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
-          noWrap: true,
+          worldCopyJump: true,
+
           maxBounds: [
             [-90, -180],
             [90, 180]
@@ -69,12 +70,12 @@ class Map extends Component {
         return null;
       });
     }
-    if (L.bounds(boundsArray).isValid()) {
+    if (L.bounds(boundsArray).isValid() && this.props.mode === "view") {
       this.map.fitBounds(boundsArray);
       console.log("bounds should be good to go");
     } else {
       console.log("bounds were invalid setting to default");
-      this.map.fitWorld();
+      //this.map.fitWorld();
     }
   }
 
@@ -100,6 +101,7 @@ class Map extends Component {
   }
 
   render() {
+    console.log(this.props.events);
     return <div id="mapid" onClick={this.handleClick}></div>;
   }
 }
