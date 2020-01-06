@@ -29,8 +29,7 @@ class CreateJourney extends Component {
       .then(function(response) {
         const shipIds = childState.selectedShips;
         const eventId = response.data._id;
-        console.log("the ships", shipIds);
-        console.log("the event", eventId);
+
         API.eventToShips(eventId, shipIds);
       })
       .catch(function(error) {
@@ -58,7 +57,14 @@ class CreateJourney extends Component {
         console.log(error);
       });
   }
+
+  componentDidMount() {
+    if (_.isEmpty(this.state.currentJourneyData) === false) {
+      this.getJourney();
+    }
+  }
   getJourney = () => {
+    console.log("is this going");
     const self = this;
     API.getJourney(this.state.currentJourneyId).then(function(response) {
       const currentJourneyData = response.data;
