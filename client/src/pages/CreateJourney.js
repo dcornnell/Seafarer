@@ -6,6 +6,8 @@ import Map from "../components/Map";
 import API from "../util/API";
 import About from "../components/About";
 import _ from "lodash";
+import Event from "../components/Event";
+import EventList from "../components/EventList";
 class CreateJourney extends Component {
   state = {
     journeySubmited: false,
@@ -25,14 +27,13 @@ class CreateJourney extends Component {
   };
   //
   eventFormSubmit(childState) {
-    API.createEvent(childState)
-      .then(function(response) {
-        const shipIds = childState.selectedShips;
-        const eventId = response.data._id;
-
-        API.eventToShips(eventId, shipIds);
+    const shipIds = childState.selectedShips;
+    console.log(shipIds);
+    API.createEvent(childState, shipIds)
+      .then(response => {
+        this.getJourney();
       })
-      .catch(function(error) {
+      .catch(error => {
         console.log(error);
       });
   }
@@ -65,10 +66,9 @@ class CreateJourney extends Component {
   }
   getJourney = () => {
     console.log("is this going");
-    const self = this;
-    API.getJourney(this.state.currentJourneyId).then(function(response) {
+    API.getJourney(this.state.currentJourneyId).then(response => {
       const currentJourneyData = response.data;
-      self.setState({
+      this.setState({
         dataReceived: true,
         ...currentJourneyData,
         currentJourneyData
@@ -117,7 +117,22 @@ class CreateJourney extends Component {
     }
   };
 
+  filterEvents = () => {
+    let events = [];
+    for (let i = 0; i < this.state.currentJourneyData.ships.length; i++) {
+      for (
+        let j = 0;
+        j < this.state.currentJourneyData.ships[i].events.length;
+        j++
+      ) {
+        events.push(this.state.currentJourneyData.ships[i].events[j]);
+      }
+    }
+    return events;
+  };
+
   render() {
+    console.log(this.state.currentJourneyData.ships);
     return (
       <>
         <div className="tile is-ancestor">
@@ -127,14 +142,27 @@ class CreateJourney extends Component {
             </div>
             <div className="tile is-child card is-warning">
               {this.state.dataReceived ? (
-                <EventForm
-                  key={`${this.state.clickedLatLng.lat}-${this.state.clickedLatLng.lng}`}
-                  defaultLatLng={this.state.clickedLatLng}
-                  allShips={this.state.currentJourneyData.ships}
-                  onSubmit={childState => {
-                    this.eventFormSubmit(childState);
-                  }}
-                />
+                <>
+                  <EventForm
+                    defaultLatLng={this.state.clickedLatLng}
+                    allShips={this.state.currentJourneyData.ships}
+                    onSubmit={childState => {
+                      this.eventFormSubmit(childState);
+                    }}
+                  />
+                  <EventList>
+                    {this.filterEvents().map((event, i) => {
+                      return (
+                        <Event
+                          key={i}
+                          start_date={event.start_date}
+                          end_date={event.end_date}
+                          description={event.description}
+                        />
+                      );
+                    })}
+                  </EventList>
+                </>
               ) : (
                 <div>please create the journey you wish to add events to</div>
               )}

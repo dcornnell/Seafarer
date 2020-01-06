@@ -5,11 +5,19 @@ class EventForm extends Component {
     description: "",
     start_date: "",
     end_date: "",
-    lat: this.props.defaultLatLng.lat || "",
-    lng: this.props.defaultLatLng.lng || "",
+    lat: "",
+    lng: "",
     formSubmitted: false,
     selectedShips: []
   };
+
+  static getDerivedStateFromProps(props, state) {
+    return {
+      ...state,
+      lat: props.defaultLatLng.lat,
+      lng: props.defaultLatLng.lng
+    };
+  }
 
   handleShipSelect = event => {
     let shipList = this.state.selectedShips;
