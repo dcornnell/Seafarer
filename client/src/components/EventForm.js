@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+
 import { Redirect } from "react-router-dom";
 
 class EventForm extends Component {
@@ -9,7 +9,25 @@ class EventForm extends Component {
     end_date: "",
     lat: "",
     lng: "",
-    formSubmitted: false
+    formSubmitted: false,
+    selectedShips: []
+  };
+
+  handleShipSelect = event => {
+    let shipList = this.state.selectedShips;
+    let check = event.target.checked;
+    let checkedShip = event.target.value;
+    if (check) {
+      this.setState({
+        selectedShips: [...this.state.selectedShips, checkedShip]
+      });
+    } else {
+      const index = shipList.indexOf(checkedShip);
+      shipList.splice(index, 1);
+      this.setState({
+        selectedShips: shipList
+      });
+    }
   };
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -17,26 +35,10 @@ class EventForm extends Component {
       [name]: value
     });
   };
-  handleFormSubmit = event => {
+
+  onSubmit = event => {
     event.preventDefault();
-    const location = {
-      coordinates: [this.state.lng, this.state.lat],
-      type: "Point"
-    };
-    console.log(this.state);
-    axios
-      .post("/events/create", {
-        description: this.state.description,
-        start_date: this.state.start_date,
-        end_date: this.state.end_date,
-        location: location
-      })
-      .then(function(response) {
-        console.log(response);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    this.props.onSubmit(this.state);
   };
 
   render() {
@@ -45,6 +47,19 @@ class EventForm extends Component {
     } else {
       return (
         <form className="form">
+          {this.props.allShips.map((ship, i) => {
+            return (
+              <div key={i}>
+                {ship.name}
+                <input
+                  type="checkbox"
+                  name={ship.name}
+                  value={ship._id}
+                  onChange={this.handleShipSelect}
+                />
+              </div>
+            );
+          })}
           <input
             value={this.state.description}
             name="description"
@@ -84,7 +99,14 @@ class EventForm extends Component {
             type="date"
             placeholder="end date"
           />
-          <button onClick={this.handleFormSubmit}>Submit</button>
+
+          <button
+            onClick={event => {
+              this.onSubmit(event);
+            }}
+          >
+            Submit
+          </button>
         </form>
       );
     }

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import JourneyForm from "../components/JourneyForm";
 import EventForm from "../components/EventForm";
 import Map from "../components/Map";
-import axios from "axios";
+
 import API from "../util/API";
 import About from "../components/About";
 import _ from "lodash";
@@ -18,29 +18,37 @@ class CreateJourney extends Component {
     modal: false,
     formSubmitted: false,
     dataReceived: false,
-    currentJourney: "",
-    currentJourneyData: {}
+    currentJourneyId: "",
+    currentJourneyData: {},
+    eventData: {}
   };
+  //
+  eventFormSubmit(childState) {
+    API.createEvent(childState)
+      .then(function(response) {
+        childState.selectedShips.map(ship => {
+          console.log(response.data._id);
+          console.log(ship);
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 
-  handleFormSubmit(childState) {
+  journeyFormSubmit(childState) {
     const self = this;
     const shipIds = [];
     childState.selectedShips.map(ship => {
       shipIds.push(ship._id);
       return null;
     });
+    const data = { ...childState, ships: shipIds };
 
-    axios
-      .post("/journeys/create", {
-        name: childState.name,
-        description: childState.description,
-        start_date: childState.start_date,
-        end_date: childState.end_date,
-        ships: shipIds
-      })
+    API.createJourney(data)
       .then(function(response) {
         self.setState({
-          currentJourney: response.data._id,
+          currentJourneyId: response.data._id,
           formSubmitted: true
         });
       })
@@ -50,7 +58,7 @@ class CreateJourney extends Component {
   }
   getJourney = () => {
     const self = this;
-    API.getJourney(this.state.currentJourney).then(function(response) {
+    API.getJourney(this.state.currentJourneyId).then(function(response) {
       const currentJourneyData = response.data;
       self.setState({
         dataReceived: true,
@@ -59,7 +67,6 @@ class CreateJourney extends Component {
       });
     });
   };
-  componentDidUpdate() {}
 
   conditionalRender = () => {
     if (
@@ -69,7 +76,7 @@ class CreateJourney extends Component {
       return (
         <JourneyForm
           onSubmit={childState => {
-            this.handleFormSubmit(childState);
+            this.journeyFormSubmit(childState);
           }}
         />
       );
@@ -106,7 +113,16 @@ class CreateJourney extends Component {
               {this.conditionalRender()}
             </div>
             <div className="tile is-child card is-warning">
-              <EventForm />
+              {this.state.dataReceived ? (
+                <EventForm
+                  allShips={this.state.currentJourneyData.ships}
+                  onSubmit={childState => {
+                    this.eventFormSubmit(childState);
+                  }}
+                />
+              ) : (
+                <div>please create the journey you wish to add events to</div>
+              )}
             </div>
           </div>
           <div className="tile is-8 is-parent">
@@ -115,13 +131,6 @@ class CreateJourney extends Component {
             </div>
           </div>
         </div>
-        <button
-          onClick={() => {
-            console.log(this.state.currentJourneyData);
-          }}
-        >
-          durr
-        </button>
       </>
     );
   }
