@@ -12,6 +12,15 @@ export default {
   getJourney: function(id) {
     return axios.get("/journeys/" + id);
   },
+
+  //adds an Event to ships
+  eventToShips: function(eventId, shipIds) {
+    console.log("whatep");
+    return axios.put("/shipstoevent", {
+      eventId: eventId,
+      shipIds: shipIds
+    });
+  },
   //create a Journey
   createJourney: function(data) {
     return axios.post("/journeys/create", {

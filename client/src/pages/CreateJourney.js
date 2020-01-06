@@ -26,10 +26,11 @@ class CreateJourney extends Component {
   eventFormSubmit(childState) {
     API.createEvent(childState)
       .then(function(response) {
-        childState.selectedShips.map(ship => {
-          console.log(response.data._id);
-          console.log(ship);
-        });
+        const shipIds = childState.selectedShips;
+        const eventId = response.data._id;
+        console.log("the ships", shipIds);
+        console.log("the event", eventId);
+        API.eventToShips(eventId, shipIds);
       })
       .catch(function(error) {
         console.log(error);
