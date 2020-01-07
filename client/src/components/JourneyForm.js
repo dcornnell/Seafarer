@@ -53,6 +53,12 @@ class JourneyForm extends React.Component {
     this.props.onSubmit(this.state);
   };
 
+  dateCheck = () => {
+    if (this.state.end_date < this.state.start_date) {
+      return "your start date is after your end date!";
+    }
+  };
+
   render() {
     return (
       <>
@@ -112,6 +118,7 @@ class JourneyForm extends React.Component {
               type="date"
               placeholder="end_date"
             />
+            {this.dateCheck()}
           </div>
           <button
             onClick={event => {

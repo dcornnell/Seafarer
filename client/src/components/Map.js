@@ -101,7 +101,6 @@ class Map extends Component {
   }
 
   render() {
-    console.log(this.props.events);
     return <div id="mapid" onClick={this.handleClick}></div>;
   }
 }
