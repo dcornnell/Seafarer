@@ -72,7 +72,6 @@ class Map extends Component {
     }
     if (L.bounds(boundsArray).isValid() && this.props.mode === "view") {
       this.map.fitBounds(boundsArray);
-      console.log("bounds should be good to go");
     } else {
       console.log("bounds were invalid setting to default");
       //this.map.fitWorld();

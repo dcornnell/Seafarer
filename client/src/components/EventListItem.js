@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 
-function Event({ start_date, end_date, description }) {
+function EventListItem({ start_date, end_date, description }) {
   return (
     <li>
       <b>{description} </b>
@@ -11,4 +11,4 @@ function Event({ start_date, end_date, description }) {
   );
 }
 
-export default Event;
+export default EventListItem;

@@ -6,7 +6,7 @@ import moment from "moment";
 import API from "../util/API";
 import About from "../components/About";
 import _ from "lodash";
-import Event from "../components/Event";
+import EventListItem from "../components/EventListItem";
 import EventList from "../components/EventList";
 class CreateJourney extends Component {
   state = {
@@ -178,7 +178,7 @@ class CreateJourney extends Component {
                   <EventList>
                     {this.filterEvents().map((event, i) => {
                       return (
-                        <Event
+                        <EventListItem
                           key={i}
                           start_date={event.start_date}
                           end_date={event.end_date}

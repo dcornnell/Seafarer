@@ -4,10 +4,9 @@ import "./Journey.css";
 import Map from "../components/Map";
 import About from "../components/About";
 import EventList from "../components/EventList";
-import Event from "../components/Event";
 import axios from "axios";
 import UserContext from "../context/UserContext";
-
+import _ from "lodash";
 class Journey extends React.Component {
   static contextType = UserContext;
 
@@ -57,18 +56,14 @@ class Journey extends React.Component {
               />
             </article>
             <div className="tile is-child card is-warning">
-              <EventList>
-                {this.state.events.map((event, i) => {
-                  return (
-                    <Event
-                      key={i}
-                      start_date={event.start_date}
-                      end_date={event.end_date}
-                      description={event.description}
-                    />
-                  );
-                })}
-              </EventList>
+              <EventList
+                ships={
+                  _.isEmpty(this.state.about.ships) === false
+                    ? this.state.about.ships
+                    : []
+                }
+                events={this.state.events.length > 0 ? this.state.events : []}
+              />
             </div>
           </div>
           <div className="tile is-8 is-parent">
