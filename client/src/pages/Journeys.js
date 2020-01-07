@@ -16,7 +16,6 @@ class Journeys extends Component {
   }
 
   componentDidMount() {
-    //take a little journey
     this.getJourneys();
   }
   render() {
