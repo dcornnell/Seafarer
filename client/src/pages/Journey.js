@@ -6,6 +6,8 @@ import About from "../components/About";
 import EventList from "../components/EventList";
 import Event from "../components/Event";
 import axios from "axios";
+import UserContext from "../context/UserContext";
+
 class Journey extends React.Component {
   state = {
     about: {},
@@ -69,10 +71,13 @@ class Journey extends React.Component {
           </div>
           <div className="tile is-8 is-parent">
             <div className="tile is-child card">
-              <Map events={this.state.events} />
+              <Map mode="view" events={this.state.events} />
             </div>
           </div>
         </div>
+        {/* <UserContext.Consumer>
+          {value => <h1>hello {value.user.username}</h1>}
+        </UserContext.Consumer> */}
       </>
     );
   }

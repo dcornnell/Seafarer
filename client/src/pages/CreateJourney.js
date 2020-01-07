@@ -22,7 +22,6 @@ class CreateJourney extends Component {
     dataReceived: false,
     currentJourneyId: "",
     currentJourneyData: {},
-    eventData: {},
     clickedLatLng: {}
   };
   //
@@ -69,6 +68,7 @@ class CreateJourney extends Component {
     API.getJourney(this.state.currentJourneyId).then(response => {
       const currentJourneyData = response.data;
       this.setState({
+        ships: currentJourneyData.ships,
         dataReceived: true,
         ...currentJourneyData,
         currentJourneyData
@@ -77,6 +77,9 @@ class CreateJourney extends Component {
   };
   getCoord = childState => {
     const data = { ...childState };
+    //this accounts for when people go to the "next" world
+    data.lat = (((data.lat % 360) + 540) % 360) - 180;
+    data.lng = (((data.lng % 360) + 540) % 360) - 180;
 
     this.setState({ clickedLatLng: data });
   };
@@ -128,11 +131,11 @@ class CreateJourney extends Component {
         events.push(this.state.currentJourneyData.ships[i].events[j]);
       }
     }
+
     return events;
   };
 
   render() {
-    console.log(this.state.currentJourneyData.ships);
     return (
       <>
         <div className="tile is-ancestor">
@@ -170,11 +173,22 @@ class CreateJourney extends Component {
           </div>
           <div className="tile is-8 is-parent">
             <div className="tile is-child card">
-              <Map
-                onClick={childState => {
-                  this.getCoord(childState);
-                }}
-              />
+              {this.state.dataReceived ? (
+                <Map
+                  mode="edit"
+                  events={[...this.filterEvents()]}
+                  onClick={childState => {
+                    this.getCoord(childState);
+                  }}
+                />
+              ) : (
+                <Map
+                  mode="edit"
+                  onClick={childState => {
+                    this.getCoord(childState);
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>

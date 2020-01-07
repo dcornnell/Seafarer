@@ -1,5 +1,40 @@
 var db = require("../models");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const auth = require("../middleware/auth");
+
 module.exports = function(app) {
+  //user login
+  app.post("/api/signup", function(req, res) {
+    db.User.create(req.body)
+      .then(function(result) {
+        res.json({ message: "user was created!" });
+      })
+      .catch(function(err) {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+  // user authentication
+  app.post("/api/authenticate", function(req, res) {
+    const { username, password } = req.body;
+    db.User.findOne({ username: username }).then(function(dbUser) {
+      if (!dbUser) return res.status(401).json({ message: "user not found!" });
+      if (dbUser.comparePassword(password)) {
+        const token = jwt.sign(
+          {
+            data: dbUser._id
+          },
+          process.env.JWT_KEY
+        );
+
+        res.json({ id: dbUser._id, username: dbUser.name, token: token });
+      } else {
+        res.status(401).json({ message: "Username or pasword is incorret" });
+      }
+    });
+  });
+
   //create routes
   app.post("/people/create", function(req, res) {
     db.Person.create(req.body).then(function(response) {
@@ -27,20 +62,6 @@ module.exports = function(app) {
       })
       .catch(err => res.status(422).json(err));
   });
-
-  // app.put("/shipstoevent", function(req, res) {
-  //   const { eventId, shipIds } = req.body;
-  //   shipIds.map(id => {
-  //     db.Ship.findOneAndUpdate(
-  //       { _id: id },
-  //       { $push: { events: eventId } },
-  //       { new: true }
-  //     ).then(function(response) {
-  //       console.log(response);
-  //       res.json(response);
-  //     });
-  //   });
-  // });
 
   app.post("/journeys/create", function(req, res) {
     console.log(req.body);
