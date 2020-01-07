@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import JourneyForm from "../components/JourneyForm";
 import EventForm from "../components/EventForm";
 import Map from "../components/Map";
-
+import moment from "moment";
 import API from "../util/API";
 import About from "../components/About";
 import _ from "lodash";
@@ -26,36 +26,57 @@ class CreateJourney extends Component {
   };
   //
   eventFormSubmit(childState) {
-    const shipIds = childState.selectedShips;
-    console.log(shipIds);
-    API.createEvent(childState, shipIds)
-      .then(response => {
-        this.getJourney();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (
+      !moment(childState.start_date).isBetween(
+        this.state.currentJourneyData.start_date,
+        this.state.currentJourneyData.end_date
+      )
+    ) {
+      return "your start date is outside the Journey!";
+    } else if (
+      !moment(childState.end_date).isBetween(
+        this.state.currentJourneyData.start_date,
+        this.state.currentJourneyData.end_date
+      )
+    ) {
+      return "your end date is out the Journey";
+    } else if (childState.start_date > childState.end_date) {
+      return "your end date is before your start date";
+    } else {
+      const shipIds = childState.selectedShips;
+      console.log(shipIds);
+      API.createEvent(childState, shipIds)
+        .then(response => {
+          this.getJourney();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 
   journeyFormSubmit(childState) {
-    const self = this;
-    const shipIds = [];
-    childState.selectedShips.map(ship => {
-      shipIds.push(ship._id);
-      return null;
-    });
-    const data = { ...childState, ships: shipIds };
-
-    API.createJourney(data)
-      .then(function(response) {
-        self.setState({
-          currentJourneyId: response.data._id,
-          formSubmitted: true
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
+    const { start_date, end_date } = childState;
+    if (start_date <= end_date) {
+      const self = this;
+      const shipIds = [];
+      childState.selectedShips.map(ship => {
+        shipIds.push(ship._id);
+        return null;
       });
+      const data = { ...childState, ships: shipIds };
+
+      API.createJourney(data)
+        .then(function(response) {
+          self.setState({
+            currentJourneyId: response.data._id,
+            formSubmitted: true
+          });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   }
 
   componentDidMount() {
@@ -64,7 +85,6 @@ class CreateJourney extends Component {
     }
   }
   getJourney = () => {
-    console.log("is this going");
     API.getJourney(this.state.currentJourneyId).then(response => {
       const currentJourneyData = response.data;
       this.setState({
@@ -147,6 +167,8 @@ class CreateJourney extends Component {
               {this.state.dataReceived ? (
                 <>
                   <EventForm
+                    mindate={this.state.currentJourneyData.start_date}
+                    maxdate={this.state.currentJourneyData.end_date}
                     defaultLatLng={this.state.clickedLatLng}
                     allShips={this.state.currentJourneyData.ships}
                     onSubmit={childState => {

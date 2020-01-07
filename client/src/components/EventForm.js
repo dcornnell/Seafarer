@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 
 class EventForm extends Component {
   state = {
@@ -8,7 +9,8 @@ class EventForm extends Component {
     lat: "",
     lng: "",
     formSubmitted: false,
-    selectedShips: []
+    selectedShips: [],
+    valid_date: false
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -18,6 +20,26 @@ class EventForm extends Component {
       lng: props.defaultLatLng.lng
     };
   }
+
+  dateCheck = () => {
+    if (
+      !moment(this.state.start_date).isBetween(
+        this.props.mindate,
+        this.props.enddate
+      )
+    ) {
+      return "your start date is outside the Journey!";
+    } else if (
+      !moment(this.state.end_date).isBetween(
+        this.props.mindate,
+        this.props.enddate
+      )
+    ) {
+      return "your end date is out the Journey";
+    } else if (this.state.start_date > this.state.end_date) {
+      return "your end date is before your start date";
+    } else return "";
+  };
 
   handleShipSelect = event => {
     let shipList = this.state.selectedShips;
@@ -89,6 +111,7 @@ class EventForm extends Component {
         />
 
         <input
+          min={this.props.mindate}
           value={this.state.start_date}
           name="start_date"
           onChange={this.handleInputChange}
@@ -103,6 +126,8 @@ class EventForm extends Component {
           type="date"
           placeholder="end date"
         />
+
+        <div>{this.dateCheck()}</div>
 
         <button
           onClick={event => {

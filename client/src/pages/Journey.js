@@ -9,6 +9,8 @@ import axios from "axios";
 import UserContext from "../context/UserContext";
 
 class Journey extends React.Component {
+  static contextType = UserContext;
+
   state = {
     about: {},
     events: []
@@ -75,9 +77,7 @@ class Journey extends React.Component {
             </div>
           </div>
         </div>
-        {/* <UserContext.Consumer>
-          {value => <h1>hello {value.user.username}</h1>}
-        </UserContext.Consumer> */}
+        <h1>hello {this.context.user && this.context.user.id}!</h1>
       </>
     );
   }
