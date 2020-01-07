@@ -3,5 +3,6 @@ module.exports = {
   Journey: require("./Journey"),
   Person: require("./Person"),
   Point: require("./Point"),
-  Ship: require("./Ship")
+  Ship: require("./Ship"),
+  User: require("./User")
 };

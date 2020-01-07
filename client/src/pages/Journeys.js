@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import LoginForm from "../components/LoginForm";
 
 class Journeys extends Component {
   state = {
@@ -20,6 +21,7 @@ class Journeys extends Component {
   render() {
     return (
       <>
+        <LoginForm />
         <ul>
           {this.state.journeys.map(journey => {
             return (
