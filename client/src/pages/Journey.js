@@ -21,7 +21,7 @@ class Journey extends React.Component {
 
   generateInfo() {
     const id = this.props.match.params.id;
-    axios.get("/journeys/" + id).then(res => {
+    axios.get("/api/journeys/" + id).then(res => {
       const about = res.data;
 
       let events = [];
