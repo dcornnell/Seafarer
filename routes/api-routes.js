@@ -71,7 +71,7 @@ module.exports = function(app) {
   });
 
   //read routes
-  app.get("/journeys/all", function(req, res) {
+  app.get("/api/journeys/all", function(req, res) {
     db.Journey.find()
       .populate({
         path: "ships",
@@ -82,7 +82,7 @@ module.exports = function(app) {
       });
   });
   // single journey
-  app.get("/journeys/:id", function(req, res) {
+  app.get("/api/journeys/:id", function(req, res) {
     const id = req.params.id;
     db.Journey.findById(id)
       .populate({

@@ -9,7 +9,7 @@ class Journeys extends Component {
   };
 
   getJourneys() {
-    axios.get("/journeys/all").then(res => {
+    axios.get("api/journeys/all").then(res => {
       const journeys = res.data;
       this.setState({ journeys: journeys });
     });
