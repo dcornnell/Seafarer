@@ -3,6 +3,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3001;
 const app = express();
+require("dotenv").config();
 
 var db = require("./models");
 
@@ -11,7 +12,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/seafarer", { useNewUrlParser: true });
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/seafarer", {
+  useNewUrlParser: true
+});
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
