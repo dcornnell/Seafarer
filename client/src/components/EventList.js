@@ -6,9 +6,14 @@ class EventList extends Component {
   state = {
     selectedShip: 0
   };
-  handleTab = event => {
-    this.setState({ selectedShip: event });
-    this.props.onClick(this.state);
+  handleTab = id => {
+    this.setState({ selectedShip: id });
+    this.props.onTabClick(this.state);
+  };
+
+  handleEvent = id => {
+    this.setState({ selectedEvent: id });
+    this.props.onEventClick(this.state);
   };
 
   render() {
@@ -48,12 +53,19 @@ class EventList extends Component {
         <div className="scrolls">
           {events.map((event, i) => {
             return (
-              <a href="#0" key={i} className="panel-block is-active">
+              <a
+                onClick={() => {
+                  this.handleEvent(event._id);
+                }}
+                href="#0"
+                key={i}
+                className="panel-block is-active"
+              >
                 <span className="panel-icon">
                   <i className="fas fa-book" aria-hidden="true"></i>
                 </span>
-                <b>{event.description}</b>
-                <div className="datebox">
+                <b>{event.title}</b>
+                <div className="datebox is-pulled-right">
                   {moment(event.start_date).format("MMM Do YYYY")} -
                   {moment(event.end_date).format("MMM Do YYYY")}
                 </div>

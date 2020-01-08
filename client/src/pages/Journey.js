@@ -7,6 +7,7 @@ import EventList from "../components/EventList";
 import axios from "axios";
 import UserContext from "../context/UserContext";
 import _ from "lodash";
+import EventCard from "../components/EventCard";
 
 class Journey extends React.Component {
   static contextType = UserContext;
@@ -14,7 +15,8 @@ class Journey extends React.Component {
   state = {
     about: {},
     events: [],
-    selectedShip: ""
+    selectedShip: "",
+    selectedEvent: ""
   };
 
   generateInfo() {
@@ -26,9 +28,6 @@ class Journey extends React.Component {
 
       for (let i = 0; i < about.ships.length; i++) {
         for (let j = 0; j < about.ships[i].events.length; j++) {
-          //console.log("the events enddate" + about.ships[i].events[j].end_date);
-          //console.log("the Journeys end date" + about.end_date);
-
           events.push(about.ships[i].events[j]);
         }
       }
@@ -40,6 +39,11 @@ class Journey extends React.Component {
     });
   }
 
+  getEvent(events, eventId) {
+    let event = events.filter(event => event._id === eventId);
+    return event;
+  }
+
   changeTab(childState) {
     const { selectedShip } = childState;
     this.setState({ selectedShip: selectedShip }, () => {
@@ -47,11 +51,15 @@ class Journey extends React.Component {
     });
   }
 
+  eventClick(childState) {
+    const { selectedEvent } = childState;
+    this.setState({ selectedEvent: selectedEvent });
+  }
+
   filterEvents = (ships, shipId) => {
-    console.log(shipId);
     if (shipId !== 0) {
       let ship = ships.filter(ship => ship._id === shipId);
-      console.log(ship[0].events);
+
       this.setState({ events: ship[0].events });
     }
     if (shipId === 0) {
@@ -68,6 +76,11 @@ class Journey extends React.Component {
 
   componentDidMount() {
     this.generateInfo();
+    this.getEvent(this.state.events, this.state.selectedEvent);
+  }
+
+  componentDidUpdate() {
+    this.getEvent(this.state.events, this.state.selectedEvent);
   }
 
   render() {
@@ -85,7 +98,10 @@ class Journey extends React.Component {
           <div className="column">
             <div className="card is-warning">
               <EventList
-                onClick={childState => {
+                onEventClick={childState => {
+                  this.eventClick(childState);
+                }}
+                onTabClick={childState => {
                   this.changeTab(childState);
                 }}
                 ships={
@@ -102,10 +118,17 @@ class Journey extends React.Component {
               <Map mode="view" events={this.state.events} />
             </div>
 
-            <div className="box">
-              <h1>hello {this.context.user && this.context.user.id}!</h1>
-            </div>
+            <EventCard
+              event={
+                this.state.selectedEvent
+                  ? this.getEvent(this.state.events, this.state.selectedEvent)
+                  : []
+              }
+            />
           </div>
+        </div>
+        <div className="box">
+          <h1>hello {this.context.user && this.context.user.id}!</h1>
         </div>
       </>
     );

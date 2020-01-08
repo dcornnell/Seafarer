@@ -8,6 +8,7 @@ class EventForm extends Component {
     end_date: "",
     lat: "",
     lng: "",
+    title: "",
     formSubmitted: false,
     selectedShips: [],
     valid_date: false
@@ -22,6 +23,9 @@ class EventForm extends Component {
   }
 
   dateCheck = () => {
+    if (this.state.title.length > 30) {
+      return "please enter a shorter title <30";
+    }
     if (
       !moment(this.state.start_date).isBetween(
         this.props.mindate,
@@ -86,6 +90,14 @@ class EventForm extends Component {
             </div>
           );
         })}
+
+        <input
+          value={this.state.title}
+          name="title"
+          onChange={this.handleInputChange}
+          type="text"
+          placeholder="title"
+        />
         <input
           value={this.state.description}
           name="description"
