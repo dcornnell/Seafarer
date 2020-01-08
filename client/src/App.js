@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Nav from "./components/Nav";
 import Journeys from "./pages/Journeys";
 import Journey from "./pages/Journey";
 import CreateJourney from "./pages/CreateJourney";
@@ -24,7 +24,7 @@ class App extends Component {
       <UserContext.Provider value={{ user: user, setUser: setUser }}>
         <Router>
           <div>
-            <Navbar />
+            <Nav />
             <Container>
               <Switch>
                 <Route exact path="/" component={Journeys} />
