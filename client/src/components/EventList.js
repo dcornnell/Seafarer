@@ -7,12 +7,15 @@ class EventList extends Component {
     selectedShip: 0
   };
   handleTab = id => {
-    this.setState({ selectedShip: id });
-    this.props.onTabClick(this.state);
+    this.setState({ selectedShip: id }, () => {
+      this.props.onTabClick(this.state);
+    });
   };
 
   handleEvent = id => {
-    this.setState({ selectedEvent: id });
+    this.setState({ selectedEvent: id }, () => {
+      this.props.onEventClick(this.state);
+    });
     this.props.onEventClick(this.state);
   };
 

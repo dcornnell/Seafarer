@@ -75,6 +75,7 @@ class EventForm extends Component {
   };
 
   render() {
+    console.log(this.state.selectedShips);
     return (
       <form className="form">
         {this.props.allShips.map((ship, i) => {

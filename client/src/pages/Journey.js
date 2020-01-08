@@ -46,9 +46,8 @@ class Journey extends React.Component {
 
   changeTab(childState) {
     const { selectedShip } = childState;
-    this.setState({ selectedShip: selectedShip }, () => {
-      this.filterEvents(this.state.about.ships, selectedShip);
-    });
+    const events = this.filterEvents(this.state.about.ships, selectedShip);
+    this.setState({ selectedShip: selectedShip, events: events });
   }
 
   eventClick(childState) {
@@ -59,18 +58,19 @@ class Journey extends React.Component {
   filterEvents = (ships, shipId) => {
     if (shipId !== 0) {
       let ship = ships.filter(ship => ship._id === shipId);
-
-      this.setState({ events: ship[0].events });
+      return ship[0].events;
+      //this.setState({ events: ship[0].events });
     }
     if (shipId === 0) {
       let events = [];
-      console.log(this.state.about.ships);
+
       for (let i = 0; i < this.state.about.ships.length; i++) {
         for (let j = 0; j < this.state.about.ships[i].events.length; j++) {
           events.push(this.state.about.ships[i].events[j]);
         }
       }
-      this.setState({ events: events });
+      //this.setState({ events: events });
+      return events;
     }
   };
 
@@ -84,6 +84,7 @@ class Journey extends React.Component {
   }
 
   render() {
+    console.log(this.state.events);
     return (
       <>
         <article className="box is-primary">
