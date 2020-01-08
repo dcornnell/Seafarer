@@ -28,11 +28,7 @@ class App extends Component {
             <Container>
               <Switch>
                 <Route exact path="/" component={Journeys} />
-                <ProtectedRoute
-                  exact
-                  path="/journeys/new"
-                  component={CreateJourney}
-                />
+                <Route exact path="/journeys/new" component={CreateJourney} />
                 <Route exact path="/journeys/:id" component={Journey} />
               </Switch>
             </Container>
