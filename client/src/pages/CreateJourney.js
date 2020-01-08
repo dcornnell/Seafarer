@@ -26,6 +26,8 @@ class CreateJourney extends Component {
   };
   //
   eventFormSubmit(childState) {
+    console.log(childState.title.length);
+
     if (
       !moment(childState.start_date).isBetween(
         this.state.currentJourneyData.start_date,
@@ -33,6 +35,8 @@ class CreateJourney extends Component {
       )
     ) {
       return "your start date is outside the Journey!";
+    } else if (childState.title.length > 30) {
+      return "please enter a shorter title <30";
     } else if (
       !moment(childState.end_date).isBetween(
         this.state.currentJourneyData.start_date,

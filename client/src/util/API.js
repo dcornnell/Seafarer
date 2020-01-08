@@ -38,6 +38,7 @@ export default {
       type: "Point"
     };
     return axios.post("/events/create", {
+      title: data.title,
       description: data.description,
       start_date: data.start_date,
       end_date: data.end_date,
