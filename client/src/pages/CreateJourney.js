@@ -7,7 +7,7 @@ import API from "../util/API";
 import About from "../components/About";
 import _ from "lodash";
 import EventListItem from "../components/EventListItem";
-import EventList from "../components/EventList";
+import EditEventList from "../components/EditEventList";
 class CreateJourney extends Component {
   state = {
     journeySubmited: false,
@@ -175,7 +175,7 @@ class CreateJourney extends Component {
                       this.eventFormSubmit(childState);
                     }}
                   />
-                  <EventList>
+                  <EditEventList>
                     {this.filterEvents().map((event, i) => {
                       return (
                         <EventListItem
@@ -186,7 +186,7 @@ class CreateJourney extends Component {
                         />
                       );
                     })}
-                  </EventList>
+                  </EditEventList>
                 </>
               ) : (
                 <div>please create the journey you wish to add events to</div>

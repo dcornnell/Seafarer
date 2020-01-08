@@ -7,12 +7,14 @@ import EventList from "../components/EventList";
 import axios from "axios";
 import UserContext from "../context/UserContext";
 import _ from "lodash";
+
 class Journey extends React.Component {
   static contextType = UserContext;
 
   state = {
     about: {},
-    events: []
+    events: [],
+    selectedShip: ""
   };
 
   generateInfo() {
@@ -38,6 +40,35 @@ class Journey extends React.Component {
     });
   }
 
+  changeTab(childState) {
+    const { selectedShip } = childState;
+    this.setState({ selectedShip: selectedShip }, () => {
+      this.filterEvents(this.state.about.ships, selectedShip);
+    });
+  }
+
+  filterEvents = (ships, shipId) => {
+    console.log(shipId);
+    if (shipId !== 0) {
+      let ship = ships.filter(ship => ship._id !== shipId);
+      console.log(ship[0].events);
+      this.setState({ events: ship[0].events });
+    }
+    if (shipId === 0) {
+      let events = [];
+      console.log(this.state.about.ships);
+      for (let i = 0; i < this.state.about.ships.length; i++) {
+        for (let j = 0; j < this.state.about.ships[i].events.length; j++) {
+          //console.log("the events enddate" + about.ships[i].events[j].end_date);
+          //console.log("the Journeys end date" + about.end_date);
+
+          events.push(this.state.about.ships[i].events[j]);
+        }
+      }
+      this.setState({ events: events });
+    }
+  };
+
   componentDidMount() {
     this.generateInfo();
   }
@@ -57,6 +88,9 @@ class Journey extends React.Component {
             </article>
             <div className="tile is-child card is-warning">
               <EventList
+                onClick={childState => {
+                  this.changeTab(childState);
+                }}
                 ships={
                   _.isEmpty(this.state.about.ships) === false
                     ? this.state.about.ships
