@@ -1,4 +1,5 @@
 .scrolls {
-  overflow-y: auto;
-  max-height: 100px;
+  overflow: auto;
+  height: 75vh;
+  margin-bottom: 40px;
 }

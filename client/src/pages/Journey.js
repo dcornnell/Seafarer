@@ -50,7 +50,7 @@ class Journey extends React.Component {
   filterEvents = (ships, shipId) => {
     console.log(shipId);
     if (shipId !== 0) {
-      let ship = ships.filter(ship => ship._id !== shipId);
+      let ship = ships.filter(ship => ship._id === shipId);
       console.log(ship[0].events);
       this.setState({ events: ship[0].events });
     }
@@ -59,9 +59,6 @@ class Journey extends React.Component {
       console.log(this.state.about.ships);
       for (let i = 0; i < this.state.about.ships.length; i++) {
         for (let j = 0; j < this.state.about.ships[i].events.length; j++) {
-          //console.log("the events enddate" + about.ships[i].events[j].end_date);
-          //console.log("the Journeys end date" + about.end_date);
-
           events.push(this.state.about.ships[i].events[j]);
         }
       }
@@ -76,17 +73,17 @@ class Journey extends React.Component {
   render() {
     return (
       <>
-        <div className="tile is-ancestor">
-          <div className="tile is-parent is-vertical">
-            <article className="tile is-child card is-primary">
-              <About
-                name={this.state.about.name}
-                start_date={this.state.about.start_date}
-                end_date={this.state.about.end_date}
-                description={this.state.about.description}
-              />
-            </article>
-            <div className="tile is-child card is-warning">
+        <article className="box is-primary">
+          <About
+            name={this.state.about.name}
+            start_date={this.state.about.start_date}
+            end_date={this.state.about.end_date}
+            description={this.state.about.description}
+          />
+        </article>
+        <div className="columns">
+          <div className="column">
+            <div className="card is-warning">
               <EventList
                 onClick={childState => {
                   this.changeTab(childState);
@@ -100,13 +97,16 @@ class Journey extends React.Component {
               />
             </div>
           </div>
-          <div className="tile is-8 is-parent">
-            <div className="tile is-child card">
+          <div className="column is-two-thirds">
+            <div className="box is-paddingless ">
               <Map mode="view" events={this.state.events} />
+            </div>
+
+            <div className="box">
+              <h1>hello {this.context.user && this.context.user.id}!</h1>
             </div>
           </div>
         </div>
-        <h1>hello {this.context.user && this.context.user.id}!</h1>
       </>
     );
   }

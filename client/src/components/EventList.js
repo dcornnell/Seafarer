@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./EventList.css";
+import moment from "moment";
 
 class EventList extends Component {
   state = {
@@ -51,7 +52,11 @@ class EventList extends Component {
                 <span className="panel-icon">
                   <i className="fas fa-book" aria-hidden="true"></i>
                 </span>
-                {event.description}
+                <b>{event.description}</b>
+                <div className="datebox">
+                  {moment(event.start_date).format("MMM Do YYYY")} -
+                  {moment(event.end_date).format("MMM Do YYYY")}
+                </div>
               </a>
             );
           })}

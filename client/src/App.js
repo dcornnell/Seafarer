@@ -7,6 +7,7 @@ import CreateJourney from "./pages/CreateJourney";
 import Container from "./components/Container";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserContext from "./context/UserContext";
+import "./App.css";
 
 class App extends Component {
   state = {
