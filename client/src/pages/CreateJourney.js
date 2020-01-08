@@ -6,8 +6,8 @@ import moment from "moment";
 import API from "../util/API";
 import About from "../components/About";
 import _ from "lodash";
-import Event from "../components/Event";
-import EventList from "../components/EventList";
+import EventListItem from "../components/EventListItem";
+import EditEventList from "../components/EditEventList";
 class CreateJourney extends Component {
   state = {
     journeySubmited: false,
@@ -175,10 +175,10 @@ class CreateJourney extends Component {
                       this.eventFormSubmit(childState);
                     }}
                   />
-                  <EventList>
+                  <EditEventList>
                     {this.filterEvents().map((event, i) => {
                       return (
-                        <Event
+                        <EventListItem
                           key={i}
                           start_date={event.start_date}
                           end_date={event.end_date}
@@ -186,7 +186,7 @@ class CreateJourney extends Component {
                         />
                       );
                     })}
-                  </EventList>
+                  </EditEventList>
                 </>
               ) : (
                 <div>please create the journey you wish to add events to</div>

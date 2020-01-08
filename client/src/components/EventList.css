@@ -1,0 +1,5 @@
+.scrolls {
+  overflow: auto;
+  height: 75vh;
+  margin-bottom: 40px;
+}
