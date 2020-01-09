@@ -52,10 +52,8 @@ class CreateJourney extends Component {
       console.log("am i sending the right data", shipIds);
       API.createEvent(childState, shipIds)
         .then(response => {
-          console.log(response.data);
-          this.setState({
-            events: response.data
-          });
+          console.log("event was created!");
+          this.filterEvents();
         })
         .catch(error => {
           console.log(error);
@@ -151,20 +149,21 @@ class CreateJourney extends Component {
   };
 
   filterEvents = () => {
-    console.log(this.state.events);
+    console.log(this.state.currentJourneyData.ships.length);
     let events = [];
-    if (!_.isEmpty(this.currentJourneyData)) {
-      for (let i = 0; i < this.state.currentJourneyData.ships.length; i++) {
-        for (
-          let j = 0;
-          j < this.state.currentJourneyData.ships[i].events.length;
-          j++
-        ) {
-          events.push(this.state.currentJourneyData.ships[i].events[j]);
-        }
+    for (let i = 0; i < this.state.currentJourneyData.ships.length; i++) {
+      for (
+        let j = 0;
+        j < this.state.currentJourneyData.ships[i].events.length;
+        j++
+      ) {
+        console.log(this.state.currentJourneyData.ships[i].events[j]);
+        events.push(this.state.currentJourneyData.ships[i].events[j]);
       }
     }
-    return events;
+
+    console.log(events);
+    this.setState({ events: events });
   };
 
   render() {
@@ -175,7 +174,7 @@ class CreateJourney extends Component {
           <div className="column">
             <div className="card is-warning">
               <EditEventList>
-                {this.filterEvents().map((event, i) => {
+                {this.state.events.map((event, i) => {
                   return (
                     <EventListItem
                       key={i}
@@ -191,22 +190,13 @@ class CreateJourney extends Component {
 
           <div className="column is-two-thirds">
             <div className="box is-paddingless">
-              {this.state.dataReceived ? (
-                <Map
-                  mode="edit"
-                  events={this.state.events}
-                  onClick={childState => {
-                    this.getCoord(childState);
-                  }}
-                />
-              ) : (
-                <Map
-                  mode="edit"
-                  onClick={childState => {
-                    this.getCoord(childState);
-                  }}
-                />
-              )}
+              <Map
+                events={this.state.events}
+                mode="edit"
+                onClick={childState => {
+                  this.getCoord(childState);
+                }}
+              />
             </div>
             <div className="box">
               {_.isEmpty(this.state.currentJourneyData) === false ? (

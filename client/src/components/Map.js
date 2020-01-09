@@ -64,9 +64,11 @@ class Map extends Component {
         })
       ]
     });
-    this.createMarkers();
-    //this.createPath();
-    this.createBounds();
+    if (this.props.mode === "edit") {
+      this.createMarkers();
+      this.createBounds();
+      //this.createPath();
+    }
   }
 
   createBounds() {
@@ -143,11 +145,12 @@ class Map extends Component {
     }
 
     //this.map.removeLayer(this.events);
-    //this.createMarkers();
-    //this.createBounds();
+    this.createMarkers();
+    this.createBounds();
     //this.createPath();
   }
   render() {
+    console.log(this.props.events);
     return <div id="mapid" onClick={this.handleClick}></div>;
   }
 }

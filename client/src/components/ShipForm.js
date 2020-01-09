@@ -21,7 +21,7 @@ class ShipForm extends Component {
     console.log(this.state);
 
     axios
-      .post("/ships/create", {
+      .post("/ships", {
         name: this.state.name,
         type: this.state.type,
         about: this.state.about,
