@@ -127,8 +127,9 @@ class JourneyForm extends React.Component {
             />
           </div>
           <label className="label is-small">Start Date - End Date</label>
-          <div className="field field is-inline-block-desktop">
+          <div className="field">
             <input
+              className="input"
               value={this.state.start_date}
               name="start_date"
               onChange={this.handleInputChange}
@@ -137,6 +138,7 @@ class JourneyForm extends React.Component {
             />
 
             <input
+              className="input"
               value={this.state.end_date}
               name="end_date"
               onChange={this.handleInputChange}

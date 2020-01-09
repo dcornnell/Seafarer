@@ -162,7 +162,6 @@ class CreateJourney extends Component {
       }
     }
 
-    console.log(events);
     this.setState({ events: events });
   };
 
@@ -170,37 +169,37 @@ class CreateJourney extends Component {
     return (
       <>
         <article className="box is-primary">{this.conditionalRender()}</article>
-        <div className="columns">
-          <div className="column">
-            <div className="card is-warning">
-              <EditEventList>
-                {this.state.events.map((event, i) => {
-                  return (
-                    <EventListItem
-                      key={i}
-                      start_date={event.start_date}
-                      end_date={event.end_date}
-                      description={event.description}
-                    />
-                  );
-                })}
-              </EditEventList>
+        {_.isEmpty(this.state.currentJourneyData) === false ? (
+          <div className="columns">
+            <div className="column">
+              <div className="card is-warning">
+                <EditEventList>
+                  {this.state.events.map((event, i) => {
+                    return (
+                      <EventListItem
+                        key={i}
+                        start_date={event.start_date}
+                        end_date={event.end_date}
+                        description={event.description}
+                      />
+                    );
+                  })}
+                </EditEventList>
+              </div>
             </div>
-          </div>
 
-          <div className="column is-two-thirds">
-            <div className="box is-paddingless">
-              <EditMap
-                selectedEvent="1"
-                events={this.state.events}
-                mode="edit"
-                onClick={childState => {
-                  this.getCoord(childState);
-                }}
-              />
-            </div>
-            <div className="box">
-              {_.isEmpty(this.state.currentJourneyData) === false ? (
+            <div className="column is-two-thirds">
+              <div className="box is-paddingless">
+                <EditMap
+                  selectedEvent="1"
+                  events={this.state.events}
+                  mode="edit"
+                  onClick={childState => {
+                    this.getCoord(childState);
+                  }}
+                />
+              </div>
+              <div className="box">
                 <EventForm
                   mindate={this.state.currentJourneyData.start_date}
                   maxdate={this.state.currentJourneyData.end_date}
@@ -210,12 +209,13 @@ class CreateJourney extends Component {
                     this.eventFormSubmit(childState);
                   }}
                 />
-              ) : (
-                "please enter journey dagta firSt!"
-              )}
+                }
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          ""
+        )}
       </>
     );
   }
