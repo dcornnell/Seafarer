@@ -2,10 +2,17 @@ import React, { Component } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
+import boat from "../icons/sailboat.png";
 
 let DefaultIcon = L.icon({
   iconUrl:
     "https://raw.githubusercontent.com/iconic/open-iconic/master/png/map-marker-8x.png",
+  iconSize: [32, 32],
+  iconAnchor: [16, 32]
+});
+
+let boatIcon = L.icon({
+  iconUrl: boat,
   iconSize: [32, 32],
   iconAnchor: [16, 32]
 });
@@ -57,6 +64,9 @@ class Map extends Component {
         })
       ]
     });
+    this.createMarkers();
+    //this.createPath();
+    this.createBounds();
   }
 
   createBounds() {
@@ -80,20 +90,46 @@ class Map extends Component {
 
   createMarkers() {
     let markers = [];
-    if (this.props.events) {
-      this.props.events.map(event => {
+    //if (this.props.events) {
+    this.props.events.map(event => {
+      if (event._id === this.props.selectedEvent) {
+        const marker = new L.marker(
+          [
+            parseFloat(event.location.coordinates[1]),
+            parseFloat(event.location.coordinates[0])
+          ],
+          { icon: boatIcon }
+        );
+        markers.push(marker);
+      } else {
         const marker = new L.marker([
           parseFloat(event.location.coordinates[1]),
           parseFloat(event.location.coordinates[0])
         ]);
         markers.push(marker);
+      }
+      return null;
+    });
+    //}
+    this.party = L.layerGroup(markers);
 
-        return null;
-      });
-    }
-    var events = L.layerGroup(markers);
+    this.party.addTo(this.map);
+  }
 
-    events.addTo(this.map);
+  createPath() {
+    const coords = [];
+    this.props.events.map(function(event) {
+      coords.push([
+        event.location.coordinates[1],
+        event.location.coordinates[0]
+      ]);
+      return null;
+    });
+
+    L.polyline(coords, {
+      weight: 1,
+      color: "black"
+    }).addTo(this.map);
   }
 
   componentDidMount() {
@@ -101,10 +137,16 @@ class Map extends Component {
   }
 
   componentDidUpdate() {
-    this.createMarkers();
-    this.createBounds();
-  }
+    if (this.props.mode === "view") {
+      this.map.remove();
+      this.createMap();
+    }
 
+    //this.map.removeLayer(this.events);
+    //this.createMarkers();
+    //this.createBounds();
+    //this.createPath();
+  }
   render() {
     return <div id="mapid" onClick={this.handleClick}></div>;
   }

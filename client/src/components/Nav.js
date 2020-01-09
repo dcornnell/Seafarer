@@ -2,7 +2,6 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 function Nav({ loggedIn }) {
-  console.log(loggedIn);
   return (
     <nav
       className="navbar is-dark"

@@ -59,7 +59,6 @@ class Journey extends React.Component {
     if (shipId !== 0) {
       let ship = ships.filter(ship => ship._id === shipId);
       return ship[0].events;
-      //this.setState({ events: ship[0].events });
     }
     if (shipId === 0) {
       let events = [];
@@ -69,7 +68,7 @@ class Journey extends React.Component {
           events.push(this.state.about.ships[i].events[j]);
         }
       }
-      //this.setState({ events: events });
+
       return events;
     }
   };
@@ -115,7 +114,15 @@ class Journey extends React.Component {
           </div>
           <div className="column is-two-thirds">
             <div className="box is-paddingless ">
-              <Map mode="view" events={this.state.events} />
+              {this.state.events.length !== 0 ? (
+                <Map
+                  mode="view"
+                  events={this.state.events}
+                  selectedEvent={this.state.selectedEvent}
+                />
+              ) : (
+                ""
+              )}
             </div>
 
             <EventCard
