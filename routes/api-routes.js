@@ -42,13 +42,14 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/ships/create", function(req, res) {
+  app.post("/ships", function(req, res) {
     db.Ship.create(req.body).then(function(response) {
       res.json(response);
     });
   });
 
-  app.post("/events/create", function(req, res) {
+  app.post("/events", function(req, res) {
+    console.log("im here");
     const { shipIds, ...eventData } = req.body;
     console.log(shipIds);
     db.Event.create(eventData)
@@ -63,10 +64,13 @@ module.exports = function(app) {
       .catch(err => res.status(422).json(err));
   });
 
-  app.post("/journeys/create", function(req, res) {
+  app.post("/api/journeys", function(req, res) {
     console.log(req.body);
     db.Journey.create(req.body)
-      .then(dbModel => res.json(dbModel))
+      .then(dbModel => {
+        console.log(dbModel);
+        res.json(dbModel);
+      })
       .catch(err => res.status(422).json(err));
   });
 
@@ -83,6 +87,7 @@ module.exports = function(app) {
   });
   // single journey
   app.get("/api/journeys/:id", function(req, res) {
+    console.log(req.params.id);
     const id = req.params.id;
     db.Journey.findById(id)
       .populate({

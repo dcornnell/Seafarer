@@ -18,11 +18,11 @@ export default {
   },
   //get a single Journey
   getJourney: function(id) {
-    return axios.get("/journeys/" + id);
+    return axios.get("/api/journeys/" + id);
   },
 
   createJourney: function(data) {
-    return axios.post("/journeys/create", {
+    return axios.post("/api/journeys", {
       name: data.name,
       description: data.description,
       start_date: data.start_date,
@@ -32,11 +32,12 @@ export default {
   },
   //create an event
   createEvent: function(data, shipIds) {
+    console.log("am i at the api?", data, shipIds);
     const location = {
       coordinates: [data.lng, data.lat],
       type: "Point"
     };
-    return axios.post("/events/create", {
+    return axios.post("/events", {
       title: data.title,
       description: data.description,
       start_date: data.start_date,

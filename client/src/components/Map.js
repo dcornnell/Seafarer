@@ -90,27 +90,27 @@ class Map extends Component {
 
   createMarkers() {
     let markers = [];
-    //if (this.props.events) {
-    this.props.events.map(event => {
-      if (event._id === this.props.selectedEvent) {
-        const marker = new L.marker(
-          [
+    if (this.props.events) {
+      this.props.events.map(event => {
+        if (event._id === this.props.selectedEvent) {
+          const marker = new L.marker(
+            [
+              parseFloat(event.location.coordinates[1]),
+              parseFloat(event.location.coordinates[0])
+            ],
+            { icon: boatIcon }
+          );
+          markers.push(marker);
+        } else {
+          const marker = new L.marker([
             parseFloat(event.location.coordinates[1]),
             parseFloat(event.location.coordinates[0])
-          ],
-          { icon: boatIcon }
-        );
-        markers.push(marker);
-      } else {
-        const marker = new L.marker([
-          parseFloat(event.location.coordinates[1]),
-          parseFloat(event.location.coordinates[0])
-        ]);
-        markers.push(marker);
-      }
-      return null;
-    });
-    //}
+          ]);
+          markers.push(marker);
+        }
+        return null;
+      });
+    }
     this.party = L.layerGroup(markers);
 
     this.party.addTo(this.map);

@@ -45,7 +45,6 @@ class JourneyForm extends React.Component {
       selectedShips.push(ship);
     }
     this.setState({ selectedShips: selectedShips });
-    console.log(this.state.selectedShips);
   };
 
   onSubmit = event => {
