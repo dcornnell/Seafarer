@@ -79,15 +79,21 @@ class Map extends Component {
   }
 
   createMarkers() {
+    let markers = [];
     if (this.props.events) {
       this.props.events.map(event => {
-        this.marker = new L.marker([
+        const marker = new L.marker([
           parseFloat(event.location.coordinates[1]),
           parseFloat(event.location.coordinates[0])
-        ]).addTo(this.map);
+        ]);
+        markers.push(marker);
+
         return null;
       });
     }
+    var events = L.layerGroup(markers);
+
+    events.addTo(this.map);
   }
 
   componentDidMount() {

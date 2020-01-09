@@ -1,42 +1,47 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
-function Nav() {
-  //
+function Nav({ loggedIn }) {
+  console.log(loggedIn);
   return (
     <nav
       className="navbar is-dark"
       role="navigation"
       aria-label="main navigation"
     >
-      <div className="navbar-brand">
-        SeaFarers
-        {/* <a
-          role="button"
-          className="navbar-burger burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a> */}
-      </div>
+      <div className="navbar-brand">SeaFarers</div>
 
       <div id="navbarBasicExample" className="navbar-menu">
         <div className="navbar-start">
-          <Link className="navbar-item" to={"/journeys/new"}>
-            New Journey
-          </Link>
-
           <Link className="navbar-item" to={"/"}>
             Journey List
           </Link>
+          {loggedIn ? (
+            <Link className="navbar-item" to={"/journeys/new"}>
+              New Journey
+            </Link>
+          ) : (
+            " "
+          )}
         </div>
       </div>
 
-      <div className="navbar-end"></div>
+      <div className="navbar-end">
+        {loggedIn ? (
+          ""
+        ) : (
+          <div className="navbar-item">
+            <div className="buttons">
+              <Link className="button is-primary" to={"/signup"}>
+                <strong>Sign up</strong>
+              </Link>
+              <Link className="button is-light" to={"/login"}>
+                <strong>Log in</strong>
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
     </nav>
   );
 }

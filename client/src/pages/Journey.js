@@ -21,7 +21,7 @@ class Journey extends React.Component {
 
   generateInfo() {
     const id = this.props.match.params.id;
-    axios.get("/journeys/" + id).then(res => {
+    axios.get("/api/journeys/" + id).then(res => {
       const about = res.data;
 
       let events = [];
@@ -84,7 +84,6 @@ class Journey extends React.Component {
   }
 
   render() {
-    console.log(this.state.events);
     return (
       <>
         <article className="box is-primary">
@@ -127,9 +126,6 @@ class Journey extends React.Component {
               }
             />
           </div>
-        </div>
-        <div className="box">
-          <h1>hello {this.context.user && this.context.user.id}!</h1>
         </div>
       </>
     );

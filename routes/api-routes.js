@@ -27,8 +27,8 @@ module.exports = function(app) {
           },
           process.env.JWT_KEY
         );
-
-        res.json({ id: dbUser._id, username: dbUser.name, token: token });
+        console.log(dbUser);
+        res.json({ id: dbUser._id, username: dbUser.username, token: token });
       } else {
         res.status(401).json({ message: "Username or pasword is incorret" });
       }
