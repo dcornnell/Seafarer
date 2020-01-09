@@ -8,6 +8,7 @@ import About from "../components/About";
 import _ from "lodash";
 import EventListItem from "../components/EventListItem";
 import EditEventList from "../components/EditEventList";
+import { Link } from "react-router-dom";
 class CreateJourney extends Component {
   state = {
     journeySubmited: false,
@@ -139,12 +140,20 @@ class CreateJourney extends Component {
       return <div> getting data </div>;
     } else if (_.isEmpty(this.state.currentJourneyData === false)) {
       return (
-        <About
-          name={this.state.currentJourneyData.name}
-          description={this.state.currentJourneyData.description}
-          start_date={this.state.currentJourneyData.start_date}
-          end_date={this.state.currentJourneyData.end_date}
-        />
+        <>
+          <About
+            name={this.state.currentJourneyData.name}
+            description={this.state.currentJourneyData.description}
+            start_date={this.state.currentJourneyData.start_date}
+            end_date={this.state.currentJourneyData.end_date}
+          />
+          <Link
+            className="button is-small is-danger"
+            to={"/journeys/" + this.state.currentJourneyData._id}
+          >
+            Submit Journey
+          </Link>
+        </>
       );
     }
   };
@@ -209,7 +218,6 @@ class CreateJourney extends Component {
                     this.eventFormSubmit(childState);
                   }}
                 />
-                }
               </div>
             </div>
           </div>

@@ -142,11 +142,12 @@ class EventForm extends Component {
         <div>{this.dateCheck()}</div>
 
         <button
+          className="button is-small"
           onClick={event => {
             this.onSubmit(event);
           }}
         >
-          Submit
+          Add Event!
         </button>
       </form>
     );
