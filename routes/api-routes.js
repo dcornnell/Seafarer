@@ -21,7 +21,6 @@ module.exports = function(app) {
     db.User.findOne({ username: username }).then(function(dbUser) {
       if (!dbUser) return res.status(401).json({ message: "user not found!" });
       if (dbUser.comparePassword(password)) {
-        console.log("hello");
         const token = jwt.sign(
           {
             data: dbUser._id
