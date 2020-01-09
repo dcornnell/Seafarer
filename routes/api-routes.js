@@ -68,8 +68,18 @@ module.exports = function(app) {
     console.log(req.body);
     db.Journey.create(req.body)
       .then(dbModel => {
-        console.log(dbModel);
-        res.json(dbModel);
+        dbModel
+          .populate("ships")
+          .execPopulate()
+          .then(dbJourney => {
+            const popEventsPromises = dbJourney.ships.map(ship => {
+              return ship.populate("events").execPopulate();
+            });
+            Promise.all(popEventsPromises).then(responses => {
+              dbJourney.ships = responses;
+              res.json(dbJourney);
+            });
+          });
       })
       .catch(err => res.status(422).json(err));
   });

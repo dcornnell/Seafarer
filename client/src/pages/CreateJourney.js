@@ -168,47 +168,29 @@ class CreateJourney extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <>
-        <div className="tile is-ancestor">
-          <div className="tile is-parent is-vertical">
-            <div className="tile is-child card is-primary">
-              {this.conditionalRender()}
-            </div>
-            <div className="tile is-child card is-warning">
-              {_.isEmpty(this.state.currentJourneyData) === false ? (
-                <>
-                  <EventForm
-                    mindate={this.state.currentJourneyData.start_date}
-                    maxdate={this.state.currentJourneyData.end_date}
-                    defaultLatLng={this.state.clickedLatLng}
-                    allShips={this.state.ships}
-                    onSubmit={childState => {
-                      this.eventFormSubmit(childState);
-                    }}
-                  />
-
-                  <EditEventList>
-                    {this.filterEvents().map((event, i) => {
-                      return (
-                        <EventListItem
-                          key={i}
-                          start_date={event.start_date}
-                          end_date={event.end_date}
-                          description={event.description}
-                        />
-                      );
-                    })}
-                  </EditEventList>
-                </>
-              ) : (
-                <div>please create the journey you wish to add events to</div>
-              )}
+        <article className="box is-primary">{this.conditionalRender()}</article>
+        <div className="columns">
+          <div className="column">
+            <div className="card is-warning">
+              <EditEventList>
+                {this.filterEvents().map((event, i) => {
+                  return (
+                    <EventListItem
+                      key={i}
+                      start_date={event.start_date}
+                      end_date={event.end_date}
+                      description={event.description}
+                    />
+                  );
+                })}
+              </EditEventList>
             </div>
           </div>
-          <div className="tile is-8 is-parent">
-            <div className="tile is-child card">
+
+          <div className="column is-two-thirds">
+            <div className="box is-paddingless">
               {this.state.dataReceived ? (
                 <Map
                   mode="edit"
@@ -224,6 +206,21 @@ class CreateJourney extends Component {
                     this.getCoord(childState);
                   }}
                 />
+              )}
+            </div>
+            <div className="box">
+              {_.isEmpty(this.state.currentJourneyData) === false ? (
+                <EventForm
+                  mindate={this.state.currentJourneyData.start_date}
+                  maxdate={this.state.currentJourneyData.end_date}
+                  defaultLatLng={this.state.clickedLatLng}
+                  allShips={this.state.ships}
+                  onSubmit={childState => {
+                    this.eventFormSubmit(childState);
+                  }}
+                />
+              ) : (
+                "please enter journey dagta firSt!"
               )}
             </div>
           </div>
