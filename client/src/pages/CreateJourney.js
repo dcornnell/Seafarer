@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import JourneyForm from "../components/JourneyForm";
 import EventForm from "../components/EventForm";
-import Map from "../components/Map";
+import EditMap from "../components/EditMap";
 import moment from "moment";
 import API from "../util/API";
 import About from "../components/About";
@@ -13,7 +13,7 @@ class CreateJourney extends Component {
     journeySubmited: false,
     allShips: [],
     name: "",
-    description: "",
+    description: "2å",
     start_date: "",
     end_date: "",
     selectedShips: [],
@@ -22,12 +22,13 @@ class CreateJourney extends Component {
     dataReceived: false,
     currentJourneyId: "",
     currentJourneyData: {},
-    clickedLatLng: {}
+    clickedLatLng: {},
+    eventcount: 0,
+    events: []
   };
   //
   eventFormSubmit(childState) {
-    console.log(childState.title.length);
-
+    console.log(childState);
     if (
       !moment(childState.start_date).isBetween(
         this.state.currentJourneyData.start_date,
@@ -48,10 +49,12 @@ class CreateJourney extends Component {
       return "your end date is before your start date";
     } else {
       const shipIds = childState.selectedShips;
-      console.log(shipIds);
-      API.createEvent(childState, shipIds)
+      console.log("am i sending the right data", shipIds);
+      API.createEvent(childState, shipIds, this.state.currentJourneyData._id)
         .then(response => {
-          this.getJourney();
+          console.log("event was created!", response);
+          this.setState({ currentJourneyData: response.data });
+          this.filterEvents();
         })
         .catch(error => {
           console.log(error);
@@ -60,21 +63,27 @@ class CreateJourney extends Component {
   }
 
   journeyFormSubmit(childState) {
-    const { start_date, end_date } = childState;
-    if (start_date <= end_date) {
-      const self = this;
-      const shipIds = [];
+    console.log(childState.selectedShips);
+
+    if (
+      childState.start_date <= childState.end_date &&
+      childState.selectedShips.length > 0
+    ) {
+      let shipsIds = [];
+
       childState.selectedShips.map(ship => {
-        shipIds.push(ship._id);
+        shipsIds.push(ship._id);
         return null;
       });
-      const data = { ...childState, ships: shipIds };
+      const data = { ...childState, ships: shipsIds };
 
       API.createJourney(data)
-        .then(function(response) {
-          self.setState({
-            currentJourneyId: response.data._id,
-            formSubmitted: true
+        .then(response => {
+          console.log(this);
+          this.setState({
+            currentJourneyData: response.data,
+            formSubmitted: true,
+            ships: childState.selectedShips
           });
         })
         .catch(function(error) {
@@ -88,17 +97,19 @@ class CreateJourney extends Component {
       this.getJourney();
     }
   }
-  getJourney = () => {
-    API.getJourney(this.state.currentJourneyId).then(response => {
-      const currentJourneyData = response.data;
+  getJourney() {
+    console.log(this.state.currentJourneyData);
+    API.getJourney(this.state.currentJourneyData._id).then(function(response) {
+      const currentJourneyData = response;
+      console.log(response);
       this.setState({
-        ships: currentJourneyData.ships,
-        dataReceived: true,
-        ...currentJourneyData,
-        currentJourneyData
+        ships: currentJourneyData.ships
+        //dataReceived: true,
+        //...currentJourneyData,
+        //currentJourneyData
       });
     });
-  };
+  }
   getCoord = childState => {
     const data = { ...childState };
     //this accounts for when people go to the "next" world
@@ -126,25 +137,20 @@ class CreateJourney extends Component {
     ) {
       this.getJourney();
       return <div> getting data </div>;
-    } else if (this.state.dataReceived) {
-      const {
-        name,
-        description,
-        start_date,
-        end_date
-      } = this.state.currentJourneyData;
+    } else if (_.isEmpty(this.state.currentJourneyData === false)) {
       return (
         <About
-          name={name}
-          description={description}
-          start_date={start_date}
-          end_date={end_date}
+          name={this.state.currentJourneyData.name}
+          description={this.state.currentJourneyData.description}
+          start_date={this.state.currentJourneyData.start_date}
+          end_date={this.state.currentJourneyData.end_date}
         />
       );
     }
   };
 
   filterEvents = () => {
+    console.log(this.state.currentJourneyData.ships.length);
     let events = [];
     for (let i = 0; i < this.state.currentJourneyData.ships.length; i++) {
       for (
@@ -156,64 +162,56 @@ class CreateJourney extends Component {
       }
     }
 
-    return events;
+    console.log(events);
+    this.setState({ events: events });
   };
 
   render() {
     return (
       <>
-        <div className="tile is-ancestor">
-          <div className="tile is-parent is-vertical">
-            <div className="tile is-child card is-primary">
-              {this.conditionalRender()}
-            </div>
-            <div className="tile is-child card is-warning">
-              {this.state.dataReceived ? (
-                <>
-                  <EventForm
-                    mindate={this.state.currentJourneyData.start_date}
-                    maxdate={this.state.currentJourneyData.end_date}
-                    defaultLatLng={this.state.clickedLatLng}
-                    allShips={this.state.currentJourneyData.ships}
-                    onSubmit={childState => {
-                      this.eventFormSubmit(childState);
-                    }}
-                  />
-                  <EditEventList>
-                    {this.filterEvents().map((event, i) => {
-                      return (
-                        <EventListItem
-                          key={i}
-                          start_date={event.start_date}
-                          end_date={event.end_date}
-                          description={event.description}
-                        />
-                      );
-                    })}
-                  </EditEventList>
-                </>
-              ) : (
-                <div>please create the journey you wish to add events to</div>
-              )}
+        <article className="box is-primary">{this.conditionalRender()}</article>
+        <div className="columns">
+          <div className="column">
+            <div className="card is-warning">
+              <EditEventList>
+                {this.state.events.map((event, i) => {
+                  return (
+                    <EventListItem
+                      key={i}
+                      start_date={event.start_date}
+                      end_date={event.end_date}
+                      description={event.description}
+                    />
+                  );
+                })}
+              </EditEventList>
             </div>
           </div>
-          <div className="tile is-8 is-parent">
-            <div className="tile is-child card">
-              {this.state.dataReceived ? (
-                <Map
-                  mode="edit"
-                  events={[...this.filterEvents()]}
-                  onClick={childState => {
-                    this.getCoord(childState);
+
+          <div className="column is-two-thirds">
+            <div className="box is-paddingless">
+              <EditMap
+                selectedEvent="1"
+                events={this.state.events}
+                mode="edit"
+                onClick={childState => {
+                  this.getCoord(childState);
+                }}
+              />
+            </div>
+            <div className="box">
+              {_.isEmpty(this.state.currentJourneyData) === false ? (
+                <EventForm
+                  mindate={this.state.currentJourneyData.start_date}
+                  maxdate={this.state.currentJourneyData.end_date}
+                  defaultLatLng={this.state.clickedLatLng}
+                  allShips={this.state.ships}
+                  onSubmit={childState => {
+                    this.eventFormSubmit(childState);
                   }}
                 />
               ) : (
-                <Map
-                  mode="edit"
-                  onClick={childState => {
-                    this.getCoord(childState);
-                  }}
-                />
+                "please enter journey dagta firSt!"
               )}
             </div>
           </div>

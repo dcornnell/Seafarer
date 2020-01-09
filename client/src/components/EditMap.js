@@ -11,12 +11,6 @@ let DefaultIcon = L.icon({
   iconAnchor: [16, 32]
 });
 
-let boatIcon = L.icon({
-  iconUrl: boat,
-  iconSize: [32, 32],
-  iconAnchor: [16, 32]
-});
-
 L.Marker.prototype.options.icon = DefaultIcon;
 
 class Map extends Component {
@@ -64,9 +58,6 @@ class Map extends Component {
         })
       ]
     });
-    this.createMarkers();
-    this.createBounds();
-    //this.createPath();
   }
 
   createBounds() {
@@ -90,30 +81,13 @@ class Map extends Component {
 
   createMarkers() {
     let markers = [];
-    if (this.props.events) {
-      this.props.events.map(event => {
-        if (event._id === this.props.selectedEvent) {
-          const marker = new L.marker(
-            [
-              parseFloat(event.location.coordinates[1]),
-              parseFloat(event.location.coordinates[0])
-            ],
-            { icon: boatIcon }
-          );
-          markers.push(marker);
-        } else {
-          const marker = new L.marker([
-            parseFloat(event.location.coordinates[1]),
-            parseFloat(event.location.coordinates[0])
-          ]);
-          markers.push(marker);
-        }
-        return null;
-      });
-    }
-    this.party = L.layerGroup(markers);
 
-    this.party.addTo(this.map);
+    this.props.events.map(event => {
+      const marker = new L.marker([
+        parseFloat(event.location.coordinates[1]),
+        parseFloat(event.location.coordinates[0])
+      ]).addTo(this.map);
+    });
   }
 
   createPath() {
@@ -134,28 +108,15 @@ class Map extends Component {
 
   componentDidMount() {
     this.createMap();
-    console.log(this.party);
-    for (let marker in this.party._layers) {
-      console.log(this.party._layers[marker]);
-      // if ()
-      // this.map.removeLayer(this.party._layers[marker]);
-    }
   }
 
   componentDidUpdate() {
-    if (this.props.mode === "view") {
-      this.map.remove();
-      this.createMap();
-    }
-    console.log(this.party);
-    console.log(this.map._layers[110]);
-    this.map.removeLayer(this.party);
     this.createMarkers();
     this.createBounds();
     //this.createPath();
   }
   render() {
-    // console.log(this.props.events);
+    console.log(this.props.events);
     return <div id="mapid" onClick={this.handleClick}></div>;
   }
 }
