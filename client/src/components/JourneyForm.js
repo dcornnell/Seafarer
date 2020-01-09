@@ -57,6 +57,12 @@ class JourneyForm extends React.Component {
       return "your start date is after your end date!";
     }
   };
+  removeShip = id => {
+    const selectedShips = this.state.selectedShips.filter(
+      ship => ship._id !== id
+    );
+    this.setState({ selectedShips: selectedShips });
+  };
 
   render() {
     return (
@@ -75,19 +81,39 @@ class JourneyForm extends React.Component {
           </div>
           <div className="field">
             <label className="label is-small">Ships on the Journey:</label>
-            {this.state.selectedShips.map(ship => {
-              return <p key={ship._id}>{ship.name}</p>;
-            })}
-            <button onClick={this.toggleModal}>add a ship</button>
-            <select value={this.state.ships} onChange={this.handleSelectShip}>
-              {this.state.allShips.map(ship => {
+            <div className="buttons">
+              {this.state.selectedShips.map(ship => {
                 return (
-                  <option key={ship._id} value={JSON.stringify(ship)}>
+                  <div
+                    onClick={event => {
+                      this.removeShip(ship._id);
+                    }}
+                    className="button is-success is-small"
+                    key={ship._id}
+                  >
                     {ship.name}
-                  </option>
+                  </div>
                 );
               })}
-            </select>
+            </div>
+            <p>select a ship:</p>
+            <div className="select">
+              <select value={this.state.ships} onChange={this.handleSelectShip}>
+                <option value="none" selected disabled hidden>
+                  Select an Ship
+                </option>
+                {this.state.allShips.map(ship => {
+                  return (
+                    <option key={ship._id} value={JSON.stringify(ship)}>
+                      {ship.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <button className="button is-primary" onClick={this.toggleModal}>
+              add new ship
+            </button>
           </div>
           <div className="field">
             <label className="label is-small">Description:</label>
@@ -101,7 +127,7 @@ class JourneyForm extends React.Component {
             />
           </div>
           <label className="label is-small">Start Date - End Date</label>
-          <div className="field is-grouped is-grouped-multiline">
+          <div className="field field is-inline-block-desktop">
             <input
               value={this.state.start_date}
               name="start_date"
@@ -120,6 +146,7 @@ class JourneyForm extends React.Component {
             {this.dateCheck()}
           </div>
           <button
+            className="button is-primary"
             onClick={event => {
               this.onSubmit(event);
             }}
