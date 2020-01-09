@@ -6,7 +6,8 @@ class ShipForm extends Component {
     name: "",
     type: "",
     about: "",
-    country: ""
+    country: "",
+    shipsCreated: 0
   };
 
   handleInputChange = event => {
@@ -37,7 +38,8 @@ class ShipForm extends Component {
       name: "",
       type: "",
       about: "",
-      country: ""
+      country: "",
+      shipsCreated: this.state.shipsCreated + 1
     });
     this.props.onSubmit();
   };
@@ -45,39 +47,52 @@ class ShipForm extends Component {
   render() {
     return (
       <form className="form">
-        Ship Name:
-        <input
-          value={this.state.name}
-          name="name"
-          onChange={this.handleInputChange}
-          type="text"
-          placeholder="name"
-        />
-        Type:
-        <input
-          value={this.state.type}
-          name="type"
-          onChange={this.handleInputChange}
-          type="text"
-          placeholder="type"
-        />
-        About:
-        <input
-          value={this.state.about}
-          name="about"
-          onChange={this.handleInputChange}
-          type="text"
-          placeholder="about"
-        />
-        Country of Origin:
-        <input
-          value={this.state.country}
-          name="country"
-          onChange={this.handleInputChange}
-          type="text"
-          placeholder="country"
-        />
-        <button onClick={this.handleFormSubmit}>Submit</button>
+        <div className="form-group">
+          Ship Name:
+          <input
+            className="input"
+            value={this.state.name}
+            name="name"
+            onChange={this.handleInputChange}
+            type="text"
+            placeholder="name"
+          />
+          Type:
+          <input
+            className="input"
+            value={this.state.type}
+            name="type"
+            onChange={this.handleInputChange}
+            type="text"
+            placeholder="type"
+          />
+          About:
+          <input
+            className="input"
+            value={this.state.about}
+            name="about"
+            onChange={this.handleInputChange}
+            type="text"
+            placeholder="about"
+          />
+          Country of Origin:
+          <input
+            className="input"
+            value={this.state.country}
+            name="country"
+            onChange={this.handleInputChange}
+            type="text"
+            placeholder="country"
+          />
+        </div>
+        {this.state.shipsCreated > 0 ? (
+          <div>you have added ({this.state.shipsCreated}) ship(s)</div>
+        ) : (
+          ""
+        )}
+        <button className="button is-primary" onClick={this.handleFormSubmit}>
+          Submit
+        </button>
       </form>
     );
   }

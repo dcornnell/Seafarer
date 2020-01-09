@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
-import boat from "../icons/sailboat.png";
 
 let DefaultIcon = L.icon({
   iconUrl:
@@ -80,13 +79,12 @@ class Map extends Component {
   }
 
   createMarkers() {
-    let markers = [];
-
     this.props.events.map(event => {
-      const marker = new L.marker([
+      new L.marker([
         parseFloat(event.location.coordinates[1]),
         parseFloat(event.location.coordinates[0])
       ]).addTo(this.map);
+      return null;
     });
   }
 
