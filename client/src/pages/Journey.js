@@ -84,7 +84,6 @@ class Journey extends React.Component {
   }
 
   render() {
-    console.log(this.state.events);
     return (
       <>
         <article className="box is-primary">
@@ -127,9 +126,6 @@ class Journey extends React.Component {
               }
             />
           </div>
-        </div>
-        <div className="box">
-          <h1>hello {this.context.user && this.context.user.id}!</h1>
         </div>
       </>
     );

@@ -1,6 +1,14 @@
 import axios from "axios";
-//get all ships
+
 export default {
+  //create a user this should probably be moved to auth
+  createUser: function(username, password) {
+    return axios.post("/api/signup", {
+      username: username,
+      password: password
+    });
+  },
+  //get all ships
   getShips: function() {
     return axios.get("/ships/all");
   },
@@ -13,15 +21,6 @@ export default {
     return axios.get("/journeys/" + id);
   },
 
-  //adds an Event to ships
-  // eventToShips: function(eventId, shipIds) {
-  //   console.log("whatep");
-  //   return axios.put("/shipstoevent", {
-  //     eventId: eventId,
-  //     shipIds: shipIds
-  //   });
-  // },
-  //create a Journey
   createJourney: function(data) {
     return axios.post("/journeys/create", {
       name: data.name,
