@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import JourneyForm from "../components/JourneyForm";
 import EventForm from "../components/EventForm";
-import Map from "../components/Map";
+import EditMap from "../components/EditMap";
 import moment from "moment";
 import API from "../util/API";
 import About from "../components/About";
@@ -50,9 +50,10 @@ class CreateJourney extends Component {
     } else {
       const shipIds = childState.selectedShips;
       console.log("am i sending the right data", shipIds);
-      API.createEvent(childState, shipIds)
+      API.createEvent(childState, shipIds, this.state.currentJourneyData._id)
         .then(response => {
-          console.log("event was created!");
+          console.log("event was created!", response);
+          this.setState({ currentJourneyData: response.data });
           this.filterEvents();
         })
         .catch(error => {
@@ -157,7 +158,6 @@ class CreateJourney extends Component {
         j < this.state.currentJourneyData.ships[i].events.length;
         j++
       ) {
-        console.log(this.state.currentJourneyData.ships[i].events[j]);
         events.push(this.state.currentJourneyData.ships[i].events[j]);
       }
     }
@@ -190,7 +190,8 @@ class CreateJourney extends Component {
 
           <div className="column is-two-thirds">
             <div className="box is-paddingless">
-              <Map
+              <EditMap
+                selectedEvent="1"
                 events={this.state.events}
                 mode="edit"
                 onClick={childState => {

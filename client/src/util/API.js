@@ -31,13 +31,14 @@ export default {
     });
   },
   //create an event
-  createEvent: function(data, shipIds) {
+  createEvent: function(data, shipIds, journeyId) {
     console.log("am i at the api?", data, shipIds);
     const location = {
       coordinates: [data.lng, data.lat],
       type: "Point"
     };
     return axios.post("/events", {
+      journeyId: journeyId,
       title: data.title,
       description: data.description,
       start_date: data.start_date,

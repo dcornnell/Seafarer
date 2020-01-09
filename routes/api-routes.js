@@ -49,19 +49,35 @@ module.exports = function(app) {
   });
 
   app.post("/events", function(req, res) {
-    console.log("im here");
-    const { shipIds, ...eventData } = req.body;
+    console.log(req.body);
+    const { shipIds, journeyId, ...eventData } = req.body;
     console.log(shipIds);
-    db.Event.create(eventData)
-      .then(dbEvent => {
-        db.Ship.update(
-          { _id: { $in: shipIds } },
-          { $push: { events: dbEvent._id } }
-        ).then(function() {
-          res.json(dbEvent);
-        });
-      })
-      .catch(err => res.status(422).json(err));
+    db.Event.create(eventData).then(dbEvent => {
+      db.Ship.update(
+        { _id: { $in: shipIds } },
+        { $push: { events: dbEvent._id } }
+      ).then(function() {
+        db.Journey.findById(journeyId)
+          .then((dbJourney, err) => {
+            if (err) console.log(err);
+            dbJourney
+              .populate("ships")
+              .execPopulate()
+              .then(dbJourney => {
+                const popEventsPromises = dbJourney.ships.map(ship => {
+                  return ship.populate("events").execPopulate();
+                });
+                Promise.all(popEventsPromises).then(responses => {
+                  dbJourney.ships = responses;
+                  console.log("******JOURNEY", dbJourney);
+                  res.json(dbJourney);
+                });
+              })
+              .catch(err => console.log(err));
+          })
+          .catch(err => res.status(422).json(err));
+      });
+    });
   });
 
   app.post("/api/journeys", function(req, res) {
