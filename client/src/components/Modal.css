@@ -38,3 +38,8 @@
 .close-button:hover {
   background-color: darkgray;
 }
+
+.delete {
+  position: relative;
+  float: right;
+}
