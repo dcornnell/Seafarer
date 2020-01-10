@@ -49,9 +49,7 @@ module.exports = function(app) {
   });
 
   app.post("/events", function(req, res) {
-    console.log(req.body);
     const { shipIds, journeyId, ...eventData } = req.body;
-    console.log(shipIds);
     db.Event.create(eventData).then(dbEvent => {
       db.Ship.update(
         { _id: { $in: shipIds } },
