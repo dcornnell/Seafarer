@@ -189,7 +189,7 @@ class CreateJourney extends Component {
                         key={i}
                         start_date={event.start_date}
                         end_date={event.end_date}
-                        description={event.description}
+                        title={event.title}
                       />
                     );
                   })}
