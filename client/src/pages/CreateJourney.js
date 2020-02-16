@@ -14,7 +14,7 @@ class CreateJourney extends Component {
     journeySubmited: false,
     allShips: [],
     name: "",
-    description: "2å",
+    description: "",
     start_date: "",
     end_date: "",
     selectedShips: [],

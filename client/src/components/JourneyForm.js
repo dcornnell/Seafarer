@@ -25,18 +25,18 @@ class JourneyForm extends React.Component {
   componentDidMount() {
     this.getShips();
   }
-
+  // gets all the ships from the API and sets the state for the drop down list of ships
   getShips = () => {
     API.getShips().then(res => {
       this.setState({ allShips: res.data });
     });
   };
-
+  //toggles the ship modal
   toggleModal = event => {
     event.preventDefault();
     this.setState({ modal: !this.state.modal });
   };
-
+  //adds the selected ships to to the ships on the specific journey
   handleSelectShip = option => {
     const ship = JSON.parse(option.target.value);
 
@@ -46,17 +46,18 @@ class JourneyForm extends React.Component {
     }
     this.setState({ selectedShips: selectedShips });
   };
-
+  //submits the journey
   onSubmit = event => {
     event.preventDefault();
     this.props.onSubmit(this.state);
   };
-
+  //makes sure the end date is after the start date
   dateCheck = () => {
     if (this.state.end_date < this.state.start_date) {
       return "your start date is after your end date!";
     }
   };
+  //removes a ship from the selected ships list
   removeShip = id => {
     const selectedShips = this.state.selectedShips.filter(
       ship => ship._id !== id
@@ -96,11 +97,15 @@ class JourneyForm extends React.Component {
                 );
               })}
             </div>
-            <p>select a ship:</p>
+            <p>Select a ship:</p>
             <div className="select">
-              <select value={this.state.ships} onChange={this.handleSelectShip}>
-                <option value="none" selected disabled hidden>
-                  Select an Ship
+              <select
+                value={this.state.ships}
+                defaultValue={"none"}
+                onChange={this.handleSelectShip}
+              >
+                <option value="none" disabled hidden>
+                  Select a Ship
                 </option>
                 {this.state.allShips.map(ship => {
                   return (
