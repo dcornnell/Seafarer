@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import JourneyList from "../components/JourneyList";
 import UserContext from "../context/UserContext";
+import Upload from "../components/Upload";
 
 class Journeys extends Component {
   static contextType = UserContext;
@@ -14,6 +15,7 @@ class Journeys extends Component {
         </div>
         <div className="box">
           <JourneyList />
+          <Upload />
         </div>
       </>
     );
