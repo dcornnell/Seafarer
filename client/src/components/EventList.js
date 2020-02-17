@@ -67,25 +67,29 @@ class EventList extends Component {
         </p>
         <div className="scrolls">
           {events.map((event, i) => {
-            return (
-              <a
-                onClick={() => {
-                  this.handleEvent(event._id);
-                }}
-                href="#0"
-                key={i}
-                className="panel-block is-active"
-              >
-                <span className="panel-icon">
-                  <i className="fas fa-book" aria-hidden="true"></i>
-                </span>
-                <b>{event.title}</b>
-                <div className="datebox is-pulled-right">
-                  {moment(event.start_date).format("MMM Do YYYY")} -
-                  {moment(event.end_date).format("MMM Do YYYY")}
-                </div>
-              </a>
-            );
+            if (event._id === this.props.selectedEvent) {
+              return "ay bay bay";
+            } else {
+              return (
+                <a
+                  onClick={() => {
+                    this.handleEvent(event._id);
+                  }}
+                  href="#0"
+                  key={i}
+                  className="panel-block is-active"
+                >
+                  <span className="panel-icon">
+                    <i className="fas fa-book" aria-hidden="true"></i>
+                  </span>
+                  <b>{event.title}</b>
+                  <div className="datebox is-pulled-right">
+                    {moment(event.start_date).format("MMM Do YYYY")} -
+                    {moment(event.end_date).format("MMM Do YYYY")}
+                  </div>
+                </a>
+              );
+            }
           })}
         </div>
       </article>

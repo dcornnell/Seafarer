@@ -60,7 +60,9 @@ class Journey extends React.Component {
     const events = this.state.events;
     const index = events.findIndex(event => event._id === `${childState}`);
     if (index < events.length - 1) {
-      this.setState({ selectedEvent: events[index + 1]._id });
+      this.setState({
+        selectedEvent: events[index + 1]._id
+      });
     } else {
       this.setState({ selectedEvent: events[0]._id });
     }
@@ -94,6 +96,7 @@ class Journey extends React.Component {
   }
 
   render() {
+    console.log(this.state.events);
     return (
       <>
         <article className="box is-primary">
