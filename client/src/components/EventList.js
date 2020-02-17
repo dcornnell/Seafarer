@@ -19,12 +19,24 @@ class EventList extends Component {
     this.props.onEventClick(this.state);
   };
 
+  handleNext = id => {
+    this.setState({ selectedEvent: id }, () => {
+      this.props.forward(this.state.selectedEvent);
+    });
+  };
+
   render() {
+    console.log(this.props.selectedEvent);
     const { ships, events } = this.props;
 
     return (
       <article className="panel is-primary">
-        <p className="panel-heading">Events</p>
+        <p className="panel-heading">
+          Events
+          <span onClick={() => this.handleNext(this.props.selectedEvent)}>
+            Forward
+          </span>
+        </p>
         <p className="panel-tabs">
           <a
             onClick={() => {

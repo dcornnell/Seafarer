@@ -34,7 +34,8 @@ class Journey extends React.Component {
 
       this.setState({
         about: about,
-        events: events
+        events: events,
+        selectedEvent: events[0]._id
       });
     });
   }
@@ -53,6 +54,16 @@ class Journey extends React.Component {
   eventClick(childState) {
     const { selectedEvent } = childState;
     this.setState({ selectedEvent: selectedEvent });
+  }
+
+  nextEvent(childState) {
+    const events = this.state.events;
+    const index = events.findIndex(event => event._id === `${childState}`);
+    if (index < events.length - 1) {
+      this.setState({ selectedEvent: events[index + 1]._id });
+    } else {
+      this.setState({ selectedEvent: events[0]._id });
+    }
   }
 
   filterEvents = (ships, shipId) => {
@@ -109,6 +120,10 @@ class Journey extends React.Component {
                     : []
                 }
                 events={this.state.events.length > 0 ? this.state.events : []}
+                forward={childState => {
+                  this.nextEvent(childState);
+                }}
+                selectedEvent={this.state.selectedEvent}
               />
             </div>
           </div>
