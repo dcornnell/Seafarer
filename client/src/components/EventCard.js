@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 
 function EventCard({ event }) {
+  console.log(event);
   if (event.length > 0) {
     console.log(event[0]);
     return (
@@ -12,6 +13,7 @@ function EventCard({ event }) {
           {moment(event[0].end_date).format("MMM Do YYYY")}
         </h1>
         <p>{event[0].description}</p>
+        <img src={event[0].img} />
       </div>
     );
   } else
