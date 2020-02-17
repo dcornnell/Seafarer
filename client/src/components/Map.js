@@ -134,25 +134,21 @@ class Map extends Component {
 
   componentDidMount() {
     this.createMap();
-    console.log(this.party);
-    for (let marker in this.party._layers) {
-      console.log(this.party._layers[marker]);
-      // if ()
-      // this.map.removeLayer(this.party._layers[marker]);
-    }
   }
 
   componentDidUpdate() {
-    if (this.props.mode === "view") {
-      this.map.remove();
-      this.createMap();
-    }
-    console.log(this.party);
-    console.log(this.map._layers[110]);
+    //this is the blink solution leaving it here until im certain the other way doesnt have problems
+    // if (this.props.mode === "view") {
+    //   this.map.remove();
+    //   this.createMap();
+    // }
+    //removes the old layers
     this.map.removeLayer(this.party);
     this.createMarkers();
-    this.createBounds();
-    //this.createPath();
+    //recenters the map on click
+    //this.createBounds();
+    //this creates a line between points
+    // this.createPath();
   }
   render() {
     // console.log(this.props.events);
