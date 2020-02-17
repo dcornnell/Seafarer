@@ -6,3 +6,7 @@
 .highlight:hover {
   background-color: yellow;
 }
+
+.preview {
+  max-height: 100px;
+}

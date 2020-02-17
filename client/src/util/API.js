@@ -44,7 +44,8 @@ export default {
       start_date: data.start_date,
       end_date: data.end_date,
       location: location,
-      shipIds: shipIds
+      shipIds: shipIds,
+      img: data.img
     });
   }
 };

@@ -11,7 +11,8 @@ class EventForm extends Component {
     title: "",
     formSubmitted: false,
     selectedShips: [],
-    valid_date: false
+    valid_date: false,
+    img: null
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -72,6 +73,25 @@ class EventForm extends Component {
   onSubmit = event => {
     event.preventDefault();
     this.props.onSubmit(this.state);
+  };
+  // main logic for uploading image to cloudinary, the image is uploaded before they submit the form for the preview image to show up
+
+  imageUpload = async event => {
+    const files = event.target.files;
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "jiztc5xj");
+    this.setState({ loading: true });
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dcornnell/image/upload",
+      {
+        method: "POST",
+        body: data
+      }
+    );
+    const file = await res.json();
+    console.log(file);
+    this.setState({ img: file.secure_url });
   };
 
   render() {
@@ -139,7 +159,15 @@ class EventForm extends Component {
           placeholder="end date"
         />
 
+        <input
+          name="img"
+          type="file"
+          onChange={this.imageUpload}
+          ref={ref => (this.fileInput = ref)}
+        />
+
         <div>{this.dateCheck()}</div>
+        <img className="preview" src={this.state.img} alt="preview" />
 
         <button
           className="button is-small"
