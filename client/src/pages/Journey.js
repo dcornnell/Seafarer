@@ -56,15 +56,27 @@ class Journey extends React.Component {
     this.setState({ selectedEvent: selectedEvent });
   }
 
-  nextEvent(childState) {
+  nextEvent(childState, direction) {
     const events = this.state.events;
     const index = events.findIndex(event => event._id === `${childState}`);
-    if (index < events.length - 1) {
-      this.setState({
-        selectedEvent: events[index + 1]._id
-      });
+    if (direction === "+") {
+      if (index < events.length - 1) {
+        this.setState({
+          selectedEvent: events[index + 1]._id
+        });
+      } else {
+        this.setState({ selectedEvent: events[0]._id });
+      }
     } else {
-      this.setState({ selectedEvent: events[0]._id });
+      if (index > 0) {
+        this.setState({
+          selectedEvent: events[index - 1]._id
+        });
+      } else {
+        this.setState({
+          selectedEvent: events[events.length - 1]._id
+        });
+      }
     }
   }
 
@@ -123,8 +135,8 @@ class Journey extends React.Component {
                     : []
                 }
                 events={this.state.events.length > 0 ? this.state.events : []}
-                forward={childState => {
-                  this.nextEvent(childState);
+                forward={(childState, direction) => {
+                  this.nextEvent(childState, direction);
                 }}
                 selectedEvent={this.state.selectedEvent}
               />
