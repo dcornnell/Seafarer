@@ -179,48 +179,50 @@ class CreateJourney extends Component {
       <>
         <article className="box is-primary">{this.conditionalRender()}</article>
         {_.isEmpty(this.state.currentJourneyData) === false ? (
-          <div className="columns">
-            <div className="column">
-              <div className="card is-warning">
-                <EditEventList>
-                  {this.state.events.map((event, i) => {
-                    return (
-                      <EventListItem
-                        key={i}
-                        start_date={event.start_date}
-                        end_date={event.end_date}
-                        title={event.title}
-                      />
-                    );
-                  })}
-                </EditEventList>
+          <>
+            <div className="columns">
+              <div className="column">
+                <div className="card is-warning">
+                  <EditEventList>
+                    {this.state.events.map((event, i) => {
+                      return (
+                        <EventListItem
+                          key={i}
+                          start_date={event.start_date}
+                          end_date={event.end_date}
+                          title={event.title}
+                        />
+                      );
+                    })}
+                  </EditEventList>
+                </div>
               </div>
-            </div>
 
-            <div className="column is-two-thirds">
-              <div className="box is-paddingless">
-                <EditMap
-                  selectedEvent="1"
-                  events={this.state.events}
-                  mode="edit"
-                  onClick={childState => {
-                    this.getCoord(childState);
-                  }}
-                />
-              </div>
-              <div className="box">
-                <EventForm
-                  mindate={this.state.currentJourneyData.start_date}
-                  maxdate={this.state.currentJourneyData.end_date}
-                  defaultLatLng={this.state.clickedLatLng}
-                  allShips={this.state.ships}
-                  onSubmit={childState => {
-                    this.eventFormSubmit(childState);
-                  }}
-                />
+              <div className="column is-two-thirds">
+                <div className="box is-paddingless">
+                  <EditMap
+                    selectedEvent="1"
+                    events={this.state.events}
+                    mode="edit"
+                    onClick={childState => {
+                      this.getCoord(childState);
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+            <div className="box">
+              <EventForm
+                mindate={this.state.currentJourneyData.start_date}
+                maxdate={this.state.currentJourneyData.end_date}
+                defaultLatLng={this.state.clickedLatLng}
+                allShips={this.state.ships}
+                onSubmit={childState => {
+                  this.eventFormSubmit(childState);
+                }}
+              />
+            </div>
+          </>
         ) : (
           ""
         )}

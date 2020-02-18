@@ -97,86 +97,139 @@ class EventForm extends Component {
   render() {
     return (
       <form className="form">
-        {this.props.allShips.map((ship, i) => {
-          return (
-            <div key={i}>
-              {ship.name}
-              <input
-                type="checkbox"
-                name={ship.name}
-                value={ship._id}
-                onChange={this.handleShipSelect}
-              />
+        <div className="form-group">
+          <div className="columns">
+            <div className="column">
+              <div className="field">
+                <label class="label">Title:</label>
+                <input
+                  className="input is-small"
+                  value={this.state.title}
+                  name="title"
+                  onChange={this.handleInputChange}
+                  type="text"
+                  placeholder="title"
+                />
+              </div>
+              <div className="field">
+                <label class="label">Description</label>
+                <textarea
+                  className="textarea is-small"
+                  value={this.state.description}
+                  name="description"
+                  onChange={this.handleInputChange}
+                  type="text"
+                  placeholder="description"
+                />
+              </div>
+              <label class="label">Ships at this event</label>
+              {this.props.allShips.map((ship, i) => {
+                return (
+                  <div key={i}>
+                    {ship.name}:
+                    <input
+                      type="checkbox"
+                      name={ship.name}
+                      value={ship._id}
+                      onChange={this.handleShipSelect}
+                    />
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
 
-        <input
-          value={this.state.title}
-          name="title"
-          onChange={this.handleInputChange}
-          type="text"
-          placeholder="title"
-        />
-        <input
-          value={this.state.description}
-          name="description"
-          onChange={this.handleInputChange}
-          type="text"
-          placeholder="description"
-        />
+            <div className="column">
+              <div className="columns">
+                <div className="column">
+                  <div className="field is-inline-block-desktop">
+                    <label class="label">Longitute</label>
+                    <input
+                      className="input is-small"
+                      value={this.state.lng}
+                      name="lng"
+                      onChange={this.handleInputChange}
+                      type="number"
+                      placeholder="lng"
+                    />
+                  </div>
+                  <div className="field is-inline-block-desktop">
+                    <label class="label">Latitude</label>
+                    <input
+                      className="input is-small"
+                      value={this.state.lat}
+                      name="lat"
+                      onChange={this.handleInputChange}
+                      type="number"
+                      placeholder="lng"
+                    />
+                  </div>
+                  <div className="field is-inline-block-desktop">
+                    <label class="label">Start Date</label>
+                    <input
+                      className="input is-small"
+                      min={this.props.mindate}
+                      value={this.state.start_date}
+                      name="start_date"
+                      onChange={this.handleInputChange}
+                      type="date"
+                      placeholder="start date"
+                    />
+                  </div>
 
-        <input
-          value={this.state.lng}
-          name="lng"
-          onChange={this.handleInputChange}
-          type="number"
-          placeholder="lng"
-        />
+                  <div className="field is-inline-block-desktop">
+                    <label class="label">End Date</label>
+                    <input
+                      className="input is-small"
+                      value={this.state.end_date}
+                      name="end_date"
+                      onChange={this.handleInputChange}
+                      type="date"
+                      placeholder="end date"
+                    />
+                  </div>
+                  <p>{this.dateCheck()}</p>
+                </div>
 
-        <input
-          value={this.state.lat}
-          name="lat"
-          onChange={this.handleInputChange}
-          type="number"
-          placeholder="lng"
-        />
-
-        <input
-          min={this.props.mindate}
-          value={this.state.start_date}
-          name="start_date"
-          onChange={this.handleInputChange}
-          type="date"
-          placeholder="start date"
-        />
-
-        <input
-          value={this.state.end_date}
-          name="end_date"
-          onChange={this.handleInputChange}
-          type="date"
-          placeholder="end date"
-        />
-
-        <input
-          name="img"
-          type="file"
-          onChange={this.imageUpload}
-          ref={ref => (this.fileInput = ref)}
-        />
-
-        <div>{this.dateCheck()}</div>
-        <img className="preview" src={this.state.img} alt="preview" />
-
-        <button
-          className="button is-small"
-          onClick={event => {
-            this.onSubmit(event);
-          }}
-        >
-          Add Event!
-        </button>
+                <div className="column">
+                  {this.state.img ? (
+                    <img
+                      className="preview"
+                      src={this.state.img}
+                      alt="preview"
+                    />
+                  ) : (
+                    ""
+                  )}
+                  <div className="file">
+                    <label className="file-label">
+                      <input
+                        className="file-input"
+                        name="img"
+                        type="file"
+                        onChange={this.imageUpload}
+                        ref={ref => (this.fileInput = ref)}
+                      />
+                      <span className="file-cta">
+                        <span className="file-icon">
+                          <i className="fas fa-upload"></i>
+                        </span>
+                        <span className="file-label">Upload Image</span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            className="button is-large is-primary"
+            onClick={event => {
+              this.onSubmit(event);
+            }}
+          >
+            Add Event!
+          </button>
+        </div>
       </form>
     );
   }
