@@ -1,6 +1,7 @@
 .scrolls {
-  overflow: auto;
-  height: 75vh;
+  overflow: scroll;
+
+  height: 300px;
   margin-bottom: 40px;
 }
 
@@ -11,10 +12,14 @@
 
 .nav {
   display: inline-block;
-
   float: right;
 }
 
 .currentEvent {
   background-color: oldlace;
+}
+
+.event-list {
+  height: 400px;
+  overflow: hidden;
 }
