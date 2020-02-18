@@ -6,6 +6,7 @@ class EventList extends Component {
   state = {
     selectedShip: 0
   };
+
   handleTab = id => {
     this.setState({ selectedShip: id }, () => {
       this.props.onTabClick(this.state);
@@ -19,12 +20,37 @@ class EventList extends Component {
     this.props.onEventClick(this.state);
   };
 
+  handleNext = (id, direction) => {
+    console.log(direction);
+    this.setState({ selectedEvent: id }, () => {
+      this.props.forward(this.state.selectedEvent, direction);
+    });
+  };
+
   render() {
+    console.log(this.props.selectedEvent);
     const { ships, events } = this.props;
 
     return (
       <article className="panel is-primary">
-        <p className="panel-heading">Events</p>
+        <div className="panel-heading">
+          Events
+          <div className="nav">
+            <div
+              className="nav-icon"
+              onClick={() => this.handleNext(this.props.selectedEvent, "-")}
+            >
+              <i className=" is-large fas fa-arrow-left"></i>
+            </div>
+            <div
+              className="nav-icon"
+              onClick={() => this.handleNext(this.props.selectedEvent, "+")}
+            >
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+
         <p className="panel-tabs">
           <a
             onClick={() => {
@@ -55,25 +81,49 @@ class EventList extends Component {
         </p>
         <div className="scrolls">
           {events.map((event, i) => {
-            return (
-              <a
-                onClick={() => {
-                  this.handleEvent(event._id);
-                }}
-                href="#0"
-                key={i}
-                className="panel-block is-active"
-              >
-                <span className="panel-icon">
-                  <i className="fas fa-book" aria-hidden="true"></i>
-                </span>
-                <b>{event.title}</b>
-                <div className="datebox is-pulled-right">
-                  {moment(event.start_date).format("MMM Do YYYY")} -
-                  {moment(event.end_date).format("MMM Do YYYY")}
-                </div>
-              </a>
-            );
+            if (event._id === this.props.selectedEvent) {
+              return (
+                <a
+                  onClick={() => {
+                    this.handleEvent(event._id);
+                  }}
+                  href="#0"
+                  key={i}
+                  className="panel-block is-active currentEvent"
+                >
+                  {/* for adding icons before the events
+                  <span className="panel-icon">
+                    <i className="fas fa-book" aria-hidden="true"></i>
+                  </span> */}
+                  <b>{event.title}</b>
+                  <div className="datebox is-pulled-right">
+                    {moment(event.start_date).format("MMM Do YYYY")} -
+                    {moment(event.end_date).format("MMM Do YYYY")}
+                  </div>
+                </a>
+              );
+            } else {
+              return (
+                <a
+                  onClick={() => {
+                    this.handleEvent(event._id);
+                  }}
+                  href="#0"
+                  key={i}
+                  className="panel-block is-active"
+                >
+                  {/* for adding icons before the events
+                    <span className="panel-icon">
+                      <i className="fas fa-book" aria-hidden="true"></i>
+                    </span> */}
+                  <b>{event.title}</b>
+                  <div className="datebox is-pulled-right">
+                    {moment(event.start_date).format("MMM Do YYYY")} -
+                    {moment(event.end_date).format("MMM Do YYYY")}
+                  </div>
+                </a>
+              );
+            }
           })}
         </div>
       </article>

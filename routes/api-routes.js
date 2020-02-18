@@ -101,6 +101,7 @@ module.exports = function(app) {
   //read routes
   app.get("/api/journeys/all", function(req, res) {
     db.Journey.find()
+      .sort({ start_date: 1 })
       .populate({
         path: "ships",
         populate: [{ path: "captains" }, { path: "events" }]
@@ -116,7 +117,10 @@ module.exports = function(app) {
     db.Journey.findById(id)
       .populate({
         path: "ships",
-        populate: [{ path: "captains" }, { path: "events" }]
+        populate: [
+          { path: "captains" },
+          { path: "events", options: { sort: { start_date: 1 } } }
+        ]
       })
       .then(function(response) {
         res.json(response);
