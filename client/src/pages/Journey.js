@@ -108,7 +108,6 @@ class Journey extends React.Component {
   }
 
   render() {
-    console.log(this.state.events);
     return (
       <>
         <article className="box is-primary">
@@ -154,16 +153,15 @@ class Journey extends React.Component {
                 ""
               )}
             </div>
-
-            <EventCard
-              event={
-                this.state.selectedEvent
-                  ? this.getEvent(this.state.events, this.state.selectedEvent)
-                  : []
-              }
-            />
           </div>
         </div>
+        <EventCard
+          event={
+            this.state.selectedEvent
+              ? this.getEvent(this.state.events, this.state.selectedEvent)
+              : []
+          }
+        />
       </>
     );
   }

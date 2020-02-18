@@ -32,7 +32,7 @@ class EventList extends Component {
     const { ships, events } = this.props;
 
     return (
-      <article className="panel is-primary">
+      <article className="panel is-primary event-list">
         <div className="panel-heading">
           Events
           <div className="nav">
