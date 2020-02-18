@@ -30,6 +30,7 @@ class EventCard extends Component {
                 onClick={event => {
                   this.toggleModal(event);
                 }}
+                alt="some sea"
               />
             </figure>
             <Modal
@@ -38,7 +39,11 @@ class EventCard extends Component {
                 this.toggleModal(event);
               }}
             >
-              <img className="true" src={this.props.event[0].img} />
+              <img
+                className="true"
+                src={this.props.event[0].img}
+                alt="some sea"
+              />
             </Modal>
           </>
         ) : (
