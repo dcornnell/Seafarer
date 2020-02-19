@@ -66,7 +66,7 @@ class EventList extends Component {
               className="nav-icon"
               onClick={() => this.handleNext(this.props.selectedEvent, "+")}
             >
-              <i class="fas fa-arrow-right"></i>
+              <i className="fas fa-arrow-right"></i>
             </div>
           </div>
         </div>

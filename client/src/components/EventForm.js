@@ -72,7 +72,7 @@ class EventForm extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state);
+    this.setState({ img: null }, this.props.onSubmit(this.state));
   };
   // main logic for uploading image to cloudinary, the image is uploaded before they submit the form for the preview image to show up
 
@@ -101,7 +101,7 @@ class EventForm extends Component {
           <div className="columns">
             <div className="column">
               <div className="field">
-                <label class="label">Title:</label>
+                <label className="label">Title:</label>
                 <input
                   className="input is-small"
                   value={this.state.title}
@@ -112,7 +112,7 @@ class EventForm extends Component {
                 />
               </div>
               <div className="field">
-                <label class="label">Description</label>
+                <label className="label">Description</label>
                 <textarea
                   className="textarea is-small"
                   value={this.state.description}
@@ -122,7 +122,7 @@ class EventForm extends Component {
                   placeholder="description"
                 />
               </div>
-              <label class="label">Ships at this event</label>
+              <label className="label">Ships at this event</label>
               {this.props.allShips.map((ship, i) => {
                 return (
                   <div key={i}>
@@ -142,7 +142,7 @@ class EventForm extends Component {
               <div className="columns">
                 <div className="column">
                   <div className="field is-inline-block-desktop">
-                    <label class="label">Longitute</label>
+                    <label className="label">Longitute</label>
                     <input
                       className="input is-small"
                       value={this.state.lng}
@@ -153,7 +153,7 @@ class EventForm extends Component {
                     />
                   </div>
                   <div className="field is-inline-block-desktop">
-                    <label class="label">Latitude</label>
+                    <label className="label">Latitude</label>
                     <input
                       className="input is-small"
                       value={this.state.lat}
@@ -164,7 +164,7 @@ class EventForm extends Component {
                     />
                   </div>
                   <div className="field is-inline-block-desktop">
-                    <label class="label">Start Date</label>
+                    <label className="label">Start Date</label>
                     <input
                       className="input is-small"
                       min={this.props.mindate}
@@ -177,7 +177,7 @@ class EventForm extends Component {
                   </div>
 
                   <div className="field is-inline-block-desktop">
-                    <label class="label">End Date</label>
+                    <label className="label">End Date</label>
                     <input
                       className="input is-small"
                       value={this.state.end_date}

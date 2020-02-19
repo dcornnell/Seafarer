@@ -2,14 +2,17 @@ import React from "react";
 import Modal from "./Modal";
 import API from "../util/API";
 import ShipForm from "../components/ShipForm";
+import moment from "moment";
 
 class JourneyForm extends React.Component {
   state = {
     allShips: [],
     name: "",
     description: "",
-    start_date: "",
-    end_date: "",
+    start_date: moment()
+      .subtract(2, "year")
+      .format("YYYY-MM-DD"),
+    end_date: moment().format("YYYY-MM-DD"),
     selectedShips: [],
     modal: false,
     formSubmitted: false
@@ -66,6 +69,7 @@ class JourneyForm extends React.Component {
   };
 
   render() {
+    console.log(this.state.selectedShips);
     return (
       <>
         <form className="form">
