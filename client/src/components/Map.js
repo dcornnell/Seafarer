@@ -101,10 +101,12 @@ class Map extends Component {
             { icon: boatIcon }
           );
           markers.push(marker);
-          this.map.flyTo([
-            parseFloat(event.location.coordinates[1]),
-            parseFloat(event.location.coordinates[0])
-          ]);
+          if (this.props.animateStatus) {
+            this.map.flyTo([
+              parseFloat(event.location.coordinates[1]),
+              parseFloat(event.location.coordinates[0])
+            ]);
+          }
         } else {
           const marker = new L.marker([
             parseFloat(event.location.coordinates[1]),
@@ -118,6 +120,12 @@ class Map extends Component {
     this.party = L.layerGroup(markers);
 
     this.party.addTo(this.map);
+
+    if (this.props.lineStatus) {
+      if (this.props.lineStatus === true) {
+        this.createPath();
+      }
+    }
   }
 
   createPath() {
@@ -130,7 +138,7 @@ class Map extends Component {
       return null;
     });
 
-    L.polyline(coords, {
+    this.line = L.polyline(coords, {
       weight: 1,
       color: "black"
     }).addTo(this.map);
@@ -147,12 +155,15 @@ class Map extends Component {
     //   this.createMap();
     // }
     //removes the old layers
+
     this.map.removeLayer(this.party);
+    if (this.line) {
+      this.map.removeLayer(this.line);
+    }
+
     this.createMarkers();
     //recenters the map on click
     //this.createBounds();
-    //this creates a line between points
-    // this.createPath();
   }
   render() {
     // console.log(this.props.events);

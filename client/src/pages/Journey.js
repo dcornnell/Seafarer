@@ -17,7 +17,8 @@ class Journey extends React.Component {
     events: [],
     selectedShip: "",
     selectedEvent: "",
-    animate: false
+    animate: false,
+    line: false
   };
 
   generateInfo() {
@@ -36,7 +37,8 @@ class Journey extends React.Component {
       this.setState({
         about: about,
         events: events,
-        selectedEvent: events[0]._id
+        selectedEvent: events[0]._id,
+        animate: false
       });
     });
   }
@@ -46,9 +48,12 @@ class Journey extends React.Component {
     return event;
   }
 
-  toggleModal = event => {
-    event.preventDefault();
-    this.setState({ animate: !this.state.modal });
+  toggleAnimation = event => {
+    this.setState({ animate: !this.state.animate });
+  };
+
+  toogleLine = event => {
+    this.setState({ line: !this.state.line });
   };
 
   changeTab(childState) {
@@ -143,7 +148,15 @@ class Journey extends React.Component {
                 forward={(childState, direction) => {
                   this.nextEvent(childState, direction);
                 }}
+                animate={() => {
+                  this.toggleAnimation();
+                }}
+                animationStatus={this.state.animate}
                 selectedEvent={this.state.selectedEvent}
+                lineStatus={this.state.line}
+                addLine={() => {
+                  this.toogleLine();
+                }}
               />
             </div>
           </div>
@@ -154,6 +167,8 @@ class Journey extends React.Component {
                   mode="view"
                   events={this.state.events}
                   selectedEvent={this.state.selectedEvent}
+                  animateStatus={this.state.animate}
+                  lineStatus={this.state.line}
                 />
               ) : (
                 ""

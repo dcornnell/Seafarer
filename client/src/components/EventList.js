@@ -21,14 +21,20 @@ class EventList extends Component {
   };
 
   handleNext = (id, direction) => {
-    console.log(direction);
     this.setState({ selectedEvent: id }, () => {
       this.props.forward(this.state.selectedEvent, direction);
     });
   };
 
+  handleAnimate = () => {
+    this.props.animate();
+  };
+
+  handleLine = () => {
+    this.props.addLine();
+  };
+
   render() {
-    console.log(this.props.selectedEvent);
     const { ships, events } = this.props;
 
     return (
@@ -36,6 +42,20 @@ class EventList extends Component {
         <div className="panel-heading">
           Events
           <div className="nav">
+            <div className="nav-icon" onClick={() => this.handleLine()}>
+              {this.props.lineStatus === true ? (
+                <i className="  is-large fas fa-route"></i>
+              ) : (
+                <i className="  is-large fas  fa-map-marker-alt"></i>
+              )}
+            </div>
+            <div className="nav-icon" onClick={() => this.handleAnimate()}>
+              {this.props.animationStatus === true ? (
+                <i className="  is-large fas fa-eye"></i>
+              ) : (
+                <i className="  is-large fas fa-eye-slash"></i>
+              )}
+            </div>
             <div
               className="nav-icon"
               onClick={() => this.handleNext(this.props.selectedEvent, "-")}
