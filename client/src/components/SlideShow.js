@@ -20,9 +20,19 @@ class SlideShow extends React.Component {
       }
 
       let filterimages = images.filter((a, b) => images.indexOf(a) === b);
-
-      this.setState({ images: filterimages });
+      let shuffled = this.shuffleArray(filterimages);
+      this.setState({ images: shuffled });
     });
+  }
+
+  shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
   }
   componentDidMount() {
     this.getImages();
