@@ -16,7 +16,8 @@ class Journey extends React.Component {
     about: {},
     events: [],
     selectedShip: "",
-    selectedEvent: ""
+    selectedEvent: "",
+    animate: false
   };
 
   generateInfo() {
@@ -44,6 +45,11 @@ class Journey extends React.Component {
     let event = events.filter(event => event._id === eventId);
     return event;
   }
+
+  toggleModal = event => {
+    event.preventDefault();
+    this.setState({ animate: !this.state.modal });
+  };
 
   changeTab(childState) {
     const { selectedShip } = childState;

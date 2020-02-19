@@ -101,6 +101,10 @@ class Map extends Component {
             { icon: boatIcon }
           );
           markers.push(marker);
+          this.map.flyTo([
+            parseFloat(event.location.coordinates[1]),
+            parseFloat(event.location.coordinates[0])
+          ]);
         } else {
           const marker = new L.marker([
             parseFloat(event.location.coordinates[1]),
