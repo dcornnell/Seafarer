@@ -72,7 +72,7 @@ class EventForm extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state);
+    this.setState({ img: null }, this.props.onSubmit(this.state));
   };
   // main logic for uploading image to cloudinary, the image is uploaded before they submit the form for the preview image to show up
 

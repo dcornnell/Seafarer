@@ -34,12 +34,17 @@ class Journey extends React.Component {
         }
       }
 
-      this.setState({
-        about: about,
-        events: events,
-        selectedEvent: events[0]._id,
-        animate: false
-      });
+      this.setState(
+        {
+          about: about,
+          events: events,
+          selectedEvent: events[0]._id,
+          animate: false
+        },
+        () => {
+          this.filterEvents(this.state.about.ships, 0);
+        }
+      );
     });
   }
 
@@ -92,10 +97,10 @@ class Journey extends React.Component {
   }
 
   filterEvents = (ships, shipId) => {
-    console.log("this is the ships", ships, "this is the ship id", shipId);
+    console.log(ships, shipId);
     if (shipId !== 0) {
       let ship = ships.filter(ship => ship._id === shipId);
-      console.log(ship);
+
       return ship[0].events;
     }
     if (shipId === 0) {
@@ -107,7 +112,20 @@ class Journey extends React.Component {
         }
       }
 
-      return events;
+      events.sort(function(a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(a.start_date) - new Date(b.start_date);
+      });
+      const filteredArr = events.reduce((acc, current) => {
+        const x = acc.find(item => item._id === current._id);
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
+      return filteredArr;
     }
   };
 
