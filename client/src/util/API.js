@@ -8,6 +8,10 @@ export default {
       password: password
     });
   },
+
+  getEvents: function() {
+    return axios.get("/events/all");
+  },
   //get all ships
   getShips: function() {
     return axios.get("/ships/all");

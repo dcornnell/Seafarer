@@ -129,7 +129,12 @@ module.exports = function(app) {
         res.json(response);
       });
   });
-
+  //all events
+  app.get("/events/all", function(req, res) {
+    db.Event.find().then(function(events) {
+      res.json(events);
+    });
+  });
   //all ships
   app.get("/ships/all", function(req, res) {
     db.Ship.find().then(function(ships) {

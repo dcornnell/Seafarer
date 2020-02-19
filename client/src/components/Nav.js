@@ -17,7 +17,7 @@ function Nav({ loggedIn }) {
 
       <div id="navbarId" className="navbar-menu is-active">
         <div className="navbar-start">
-          <Link className="navbar-item" to={"/"}>
+          <Link className="navbar-item" to={"/journeys"}>
             Journey List
           </Link>
           {loggedIn ? (
