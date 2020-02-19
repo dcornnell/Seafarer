@@ -4,6 +4,7 @@ import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import Journey from "./pages/Journey";
 import CreateJourney from "./pages/CreateJourney";
+import Journeys from "./pages/Journeys";
 import Container from "./components/Container";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -27,11 +28,13 @@ class App extends Component {
         <Router>
           <div>
             <Nav loggedIn={user ? true : false} />
+
             <Container>
               <Switch>
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/" component={Home} />
+                <Route exact path="/journeys" component={Journeys} />
                 <ProtectedRoute
                   exact
                   path="/journeys/new"

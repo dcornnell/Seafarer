@@ -1,23 +1,29 @@
 import React, { Component } from "react";
-import JourneyList from "../components/JourneyList";
-import UserContext from "../context/UserContext";
 
-class Journeys extends Component {
+import UserContext from "../context/UserContext";
+import SlideShow from "../components/SlideShow";
+
+class Home extends Component {
   static contextType = UserContext;
   render() {
     return (
       <>
         <div className="box">
-          <h1 className="title is-6">
-            Hello {this.context.user && this.context.user.username}!
-          </h1>
+          <SlideShow />
         </div>
+
         <div className="box">
-          <JourneyList />
+          <h1 className="title">
+            Hello {this.context.user && this.context.user.username},
+          </h1>
+          <p>
+            Welcome to Seafarer. A site for viewing and logging historical sea
+            voyages. To create new journeys please create an account.
+          </p>
         </div>
       </>
     );
   }
 }
 
-export default Journeys;
+export default Home;
