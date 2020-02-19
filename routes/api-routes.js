@@ -50,11 +50,12 @@ module.exports = function(app) {
 
   app.post("/events", function(req, res) {
     const { shipIds, journeyId, ...eventData } = req.body;
-    console.log("this is the event data", eventData);
+    console.log("this is the event data", eventData, shipIds);
     db.Event.create(eventData).then(dbEvent => {
       db.Ship.update(
         { _id: { $in: shipIds } },
-        { $push: { events: dbEvent._id } }
+        { $push: { events: dbEvent._id } },
+        { multi: true }
       ).then(function() {
         db.Journey.findById(journeyId)
           .then((dbJourney, err) => {
@@ -124,6 +125,7 @@ module.exports = function(app) {
         ]
       })
       .then(function(response) {
+        console.log(response);
         res.json(response);
       });
   });

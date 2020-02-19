@@ -25,7 +25,7 @@ class Journey extends React.Component {
     const id = this.props.match.params.id;
     axios.get("/api/journeys/" + id).then(res => {
       const about = res.data;
-
+      console.log(about);
       let events = [];
 
       for (let i = 0; i < about.ships.length; i++) {
@@ -92,8 +92,10 @@ class Journey extends React.Component {
   }
 
   filterEvents = (ships, shipId) => {
+    console.log("this is the ships", ships, "this is the ship id", shipId);
     if (shipId !== 0) {
       let ship = ships.filter(ship => ship._id === shipId);
+      console.log(ship);
       return ship[0].events;
     }
     if (shipId === 0) {

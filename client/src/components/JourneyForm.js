@@ -69,6 +69,7 @@ class JourneyForm extends React.Component {
   };
 
   render() {
+    console.log(this.state.selectedShips);
     return (
       <>
         <form className="form">
